@@ -14,6 +14,34 @@
             --success: #16a34a;
             --warning: #ea580c;
             --danger: #dc2626;
+        /* GFR 계산기 스타일 */
+        .calculator-box {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .calc-input {
+            padding: 6px 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            width: 80px;
+        }
+        .calc-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 7px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .calc-btn:hover { background: #1d4ed8; }
+
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -154,6 +182,23 @@
         <h1>골다공증 & 신기능 맞춤 처방 시뮬레이터</h1>
         <p>6대 핵심 생체 지표(칼슘, 인, 신장, 골밀도, 비타민D, 골표지자) 기반 매트릭스 알고리즘</p>
     </header>
+    <!-- 🔢 사구체여과율(GFR) 독립형 자동 계산기 위젯 -->
+    <div class="card" style="margin-bottom: 15px; padding: 15px;">
+        <div style="font-weight: 700; margin-bottom: 10px; color: #475569; font-size: 0.95rem;">🔢 신장 피검사 결과로 사구체여과율(GFR) 자동 계산하기 (MDRD 공식)</div>
+        <div class="calculator-box">
+            <label>나이: <input type="number" id="calcAge" class="calc-input" value="75"></label>
+            <label>성별: 
+                <select id="calcGender" class="calc-input" style="width: 70px;">
+                    <option value="male">남성</option>
+                    <option value="female" selected>여성</option>
+                </select>
+            </label>
+            <label>혈청 크레아티닌 (Cr): <input type="number" id="calcCr" class="calc-input" step="0.1" value="1.1"> mg/dL</label>
+            <button type="button" class="calc-btn" onclick="runGfrCalculatorOnly()">GFR 계산하기</button>
+            <div id="calcGfrResult" style="font-weight: 700; color: var(--primary); margin-left: 10px; font-size: 1.05rem;"></div>
+        </div>
+    </div>
+
 
     <!-- 1단계 필터 카드 -->
     <body>
