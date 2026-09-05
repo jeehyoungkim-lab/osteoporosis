@@ -263,6 +263,31 @@
 </div>
 
 <script>
+
+// 수동 입력을 위한 순수 GFR 독립 연산 함수 (MDRD 공식 적용)
+function runGfrCalculatorOnly() {
+    const age = parseFloat(document.getElementById('calcAge').value);
+    const gender = document.getElementById('calcGender').value;
+    const cr = parseFloat(document.getElementById('calcCr').value);
+    
+    if (isNaN(age) || isNaN(cr) || cr <= 0 || age <= 0) {
+        alert("나이와 크레아티닌 수치를 올바르게 입력해 주세요.");
+        return;
+    }
+    
+    // MDRD 임상 공식 표준 연산
+    let gfr = 175 * Math.pow(cr, -1.154) * Math.pow(age, -0.203);
+    
+    if (gender === 'female') {
+        gfr = gfr * 0.742;
+    }
+    
+    gfr = Math.round(gfr * 10) / 10; // 소수점 정돈
+    
+    // 결과 출력
+    document.getElementById('calcGfrResult').innerHTML = `➡️ 계산 결과 GFR: <span style="color:var(--warning); font-size:1.15rem;">${gfr}</span> mL/min/1.73㎡`;
+}
+
 function calculate() {
     // 💡 1. 현재 라디오 버튼들의 모든 selected 선택 클래스를 초기화하고, 새로 선택된 라디오 상자에만 적용
     document.querySelectorAll('.radio-label').forEach(label => {
