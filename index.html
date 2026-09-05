@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>골다공증 & 신기능 연계 처방 의사결정 시뮬레이터</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --warning: #ea580c;
+            --danger: #dc2626;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: #0f172a;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        header p {
+            color: #64748b;
+            margin: 0;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #334155;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 8px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+        .input-group {
+            margin-bottom: 18px;
+        }
+        .input-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+            color: #475569;
+        }
+        .radio-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .radio-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .radio-label:hover {
+            background-color: #f1f5f9;
+        }
+        .radio-label input {
+            margin-top: 4px;
+        }
+        .radio-label.selected {
+            border-color: var(--primary);
+            background-color: #eff6ff;
+        }
+        .result-box {
+            display: none;
+            padding: 24px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        .result-visible {
+            display: block;
+        }
+        .result-header {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .prescription-block {
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 6px;
+            padding: 18px;
+            margin-top: 15px;
+            border-left: 5px solid currentColor;
+        }
+        .prescription-block h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        .prescription-block ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .prescription-block li {
+            margin-bottom: 6px;
+        }
+        .disclaimer {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            text-align: center;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>골다공증 & 신기능 맞춤 처방 시뮬레이터</h1>
+        <p>6대 핵심 생체 지표(칼슘, 인, 신장, 골밀도, 비타민D, 골표지자) 기반 매트릭스 알고리즘</p>
+    </header>
+
+    <!-- 1단계 필터 카드 -->
+    <div class="card">
+        <div class="section-title">🩺 1단계: 안전성 및 신장 기능 상태 필터</div>
+        <div class="grid">
+            <!-- 칼슘 및 인 수치 -->
+            <div class="input-group">
+                <span class="input-label">1. 혈중 칼슘(Ca) 및 인(P) 수치</span>
+                <div class="radio-options">
+                    <label class="radio-label">
+                        <input type="radio" name="cap" value="high" onchange="calculate()">
+                        <div>
+                            <strong>위험 (고칼슘 또는 고인산혈증 상태)</strong>
+                            <div style="font-size:0.85rem; color:#64748b;">Ca &gt; 10.5 mg/dL 또는 P &gt; 4.5 mg/dL</div>
+                        </div>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="cap" value="normal" checked onchange="calculate()">
+                        <div>
+                            <strong>정상 범위</strong>
+                            <div style="font-size:0.85rem; color:#64748b;">Ca 8.5~10.5 mg/dL 및 P 2.5~4.5 mg/dL</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 신장 기능 -->
+            <div class="input-group">
+                <span class="input-label">2. 신장 기능 (사구체여과율 - GFR)</span>
+                <div class="radio-options">
+                    <label class="radio-label">
+                        <input type="radio" name="gfr" value="low" onchange="calculate()">
+                        <div>
+                            <strong>신기능 감소 (고령 노인 또는 CKD)</strong>
+                            <div style="font-size:0.85rem; color:#64748b;">GFR &lt; 60 ml/min (배출력 부족)</div>
+                        </div>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="gfr" value="normal" checked onchange="calculate()">
+                        <div>
+                            <strong>신장 기능 정상</strong>
+                            <div style="font-size:0.85rem; color:#64748b;">GFR ≥ 60 ml/min</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2단계 필터 카드 -->
+    <div class="card">
+        <div class="section-title">🦴 2단계: 골밀도 및 골표지자 상태 필터</div>
+        <div class="grid">
+            <!-- 골밀도 -->
+            <div class="input-group">
+                <span class="input-label">3. 골밀도 검사 (T-score) 및 비타민D</span>
+                <div class="radio-options">
+                    <label class="radio-label">
+                        <input type="radio" name="tscore" value="severe" onchange="calculate()">
+                        <div>
+                            <strong>중증 골다공증 (T-score ≤ -3.0)</strong>
+                            <div style="font-size:0.85rem; color:#64748b;">골절 위험 극도로 높음, 생성력 저하</div>
+                        </div>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="tscore" value="osteoporosis" checked onchange="calculate()">
+                        <div>
+                            <strong>골다공증 확진 (T-score ≤ -2.5)</strong>
+                            <div style="font-size:0.85rem; color:#64748b;">의학적 표준 약물 치료 필수 대상자</div>
+                        </div>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="tscore" value="osteopenia" onchange="calculate()">
+                        <div>
+                            <strong>골감소증 / 정상 (T-score &gt; -2.5)</strong>
+                            <div style="font-size:0.85rem; color:#64748b;">예방 목적 및 비활성 영양제 관리 단계</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 골표지자 -->
+            <div class="input-group">
+                <span class="input-label">4. 골표지자 (BTM 실시간 속도계 지표)</span>
+                <div class="radio-options">
+                    <label class="radio-label">
+                        <input type="radio" name="btm" value="high_ctx" checked onchange="calculate()">
+                        <div>
+                            <strong>파괴 속도 가파름 (CTX 상승)</strong>
+                            <div style="font-size:0.85rem; color:#64748b;">파골세포가 활성화되어 뼈가 빨리 녹는 중</div>
+                        </div>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="btm" value="low_p1np" onchange="calculate()">
+                        <div>
+                            <strong>형성 능력 고갈 (P1NP 바닥)</strong>
+                            <div style="font-size:0.85rem; color:#64748b;">조골세포가 작동하지 않아 뼈 생성이 멈춤</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 실시간 자동 연산 결과 패널 -->
+        <div class="card">
+        <div class="section-title">📊 의사결정 트리 실시간 판정 결과</div>
+        <div id="result" class="result-box">
+            <!-- 자바스크립트로 연산된 결과가 여기에 주입됩니다 -->
+        </div>
+    </div>
+
+    <div class="disclaimer">
+        본 연산 프로그램은 대한골대사학회 및 KDIGO 신장 가이드라인을 기반으로 제작된 알고리즘 툴입니다. 실제 약물의 가감 및 변경은 반드시 피검사 수치를 확인한 의료진의 최종 임상적 판단 하에 이루어져야 합니다.
+    </div>
+</div>
+
+<script>
+function calculate() {
+    // 1. 라디오 버튼 사용자 선택 값 추출 (누락되었던 btm 복구)
+    const cap = document.querySelector('input[name="cap"]:checked').value;
+    const gfr = document.querySelector('input[name="gfr"]:checked').value;
+    const tscore = document.querySelector('input[name="tscore"]:checked').value;
+    const btm = document.querySelector('input[name="btm"]:checked').value;
+    
+    const resultDiv = document.getElementById('result');
+    
+    // 스타일을 초기화하여 가시성 확보
+    resultDiv.style.display = 'block';
+    
+    // [최우선 규칙] 칼슘/인 수치 이상 시 무조건 차단
+    if (cap === 'high') {
+        resultDiv.style.backgroundColor = '#fef2f2';
+        resultDiv.style.border = '1px solid #fee2e2';
+        resultDiv.innerHTML = `
+            <h4 style="color:var(--danger); margin-top:0;">🚨 고칼슘/고인산혈증 경보</h4>
+            <p><strong>처방 요약:</strong> 본키(활성형) 즉시 중단, 칼슘 알약 일절 금지 (처방 제외)</p>
+        `;
+        return; // 안전장치 가동 후 조기 종료
+    }
+
+    // [중간 분기] 신장 기능이 떨어진 경우 (GFR < 60)
+    if (gfr === 'low') {
+        resultDiv.style.backgroundColor = '#fff7ed';
+        resultDiv.style.border = '1px solid #ffedd5';
+        
+        if (tscore === 'osteoporosis') {
+            resultDiv.innerHTML = `
+                <h4 style="color:var(--warning); margin-top:0;">⚠️ 신기능 저하 노인의 골다공증 처방</h4>
+                <p><strong>처방 가이드:</strong> 프롤리아 주사 필수 + [본키 단독 처방] (칼슘 알약은 제외)</p>
+            `;
+        } else if (tscore === 'osteopenia') {
+            resultDiv.innerHTML = `
+                <h4 style="color:var(--warning); margin-top:0;">⚠️ 신기능 저하 및 골감소증 단계</h4>
+                <p><strong>처방 가이드:</strong> 메인 치료제 보류 + [본키 단독 처방(0.25µg)] (칼슘 알약은 제외)</p>
+            `;
+        } else if (tscore === 'severe') {
+            resultDiv.innerHTML = `
+                <h4 style="color:var(--danger); margin-top:0;">🚨 신기능 저하 및 중증 골다공증 (최고 위험)</h4>
+                <p><strong>처방 가이드:</strong> [골형성촉진제 주사]로 업그레이드 필수 + [본키 필수 병용] (칼슘 알약은 제외 또는 제한)</p>
+            `;
+        }
+    } 
+    // [누락되었던 분기] 신장 기능이 정상인 경우 (GFR ≥ 60)
+    else {
+        resultDiv.style.backgroundColor = '#f0fdf4';
+        resultDiv.style.border = '1px solid #dcfce7';
+        
+        if (tscore === 'osteopenia') {
+            resultDiv.innerHTML = `
+                <h4 style="color:var(--success); margin-top:0;">🟢 신기능 정상 - 골감소증 예방 단계</h4>
+                <p><strong>처방 가이드:</strong> 일반 비활성형 비타민D3 영양제 및 일반 칼슘제 복용 권장 (전문의약품 보류)</p>
+            `;
+        } else {
+            // 골다공증이면서 신장이 정상인 경우 (골표지자 btm에 따른 메인약 선별 로직 연동)
+            const mainDrug = (tscore === 'severe' || btm === 'low_p1np') ? '골형성촉진제 주사 요법' : '골흡수억제제(프롤리아) 표준 요법';
+            resultDiv.innerHTML = `
+                <h4 style="color:var(--success); margin-top:0;">🟢 신기능 정상 환자의 시너지 병용 처방</h4>
+                <p><strong>처방 가이드:</strong> 메인 치료제로 [${mainDrug}] 배치 + [본키연질캡슐]과 [칼슘 알약] 동시 병용 처방으로 시너지 극대화</p>
+            `;
+        }
+    }
+}
+
+// 웹페이지 최초 로드 시 라디오 버튼 선택값 기준으로 1회 자동 실행
+calculate();
+</script>
