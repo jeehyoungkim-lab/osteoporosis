@@ -158,10 +158,6 @@
     <!-- 1단계 필터 카드 -->
     <body>
 <div class="container">
-    <header style="margin-bottom: 20px;">
-        <h1 style="font-size: 1.6rem; margin-bottom: 5px;">골다공증 & 신기능 맞춤 처방 시뮬레이터</h1>
-        <p style="color: #64748b; margin: 0; font-size: 0.9rem;">6대 핵심 생체 지표 기반 매트릭스 알고리즘</p>
-    </header>
 
     <!-- 💡 1, 2단계를 허물고 한 줄로 정렬하는 대시보드 영역 -->
     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 15px;">
@@ -223,7 +219,16 @@
 
 <script>
 function calculate() {
-    // 1. 라디오 버튼 사용자 선택 값 추출 (누락되었던 btm 복구)
+    // 💡 1. 현재 라디오 버튼들의 모든 selected 선택 클래스를 초기화하고, 새로 선택된 라디오 상자에만 적용
+    document.querySelectorAll('.radio-label').forEach(label => {
+        // 이 상자 안의 라디오 버튼이 실제로 체크되었는지 확인
+        const radio = label.querySelector('input[type="radio"]');
+        if (radio && radio.checked) {
+            label.classList.add('selected'); // 선택된 상자는 파란색 활성화
+        } else {
+            label.classList.remove('selected'); // 선택되지 않은 상자는 원래대로
+        }
+    });
     const cap = document.querySelector('input[name="cap"]:checked').value;
     const gfr = document.querySelector('input[name="gfr"]:checked').value;
     const tscore = document.querySelector('input[name="tscore"]:checked').value;
