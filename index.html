@@ -59,9 +59,12 @@
         }
         .grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            grid-template-columns: repeat(4, 1fr); /* 4개의 열을 똑같은 너비로 분할 */
+            gap: 15px; /* 가로 카드 사이의 여백을 좁혀 한 화면에 담기 */
         }
+
+
+        
         @media (max-width: 768px) {
             .grid { grid-template-columns: 1fr; }
         }
