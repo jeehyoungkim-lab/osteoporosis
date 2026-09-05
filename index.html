@@ -367,7 +367,7 @@ function calculate() {
         if (tscore === 'osteopenia') {
             resultDiv.innerHTML = `
                 <h4 style="color:var(--success); margin-top:0;">🟢 신기능 정상 - 골감소증 예방 단계</h4>
-                <p><strong>처방 가이드:</strong> 일반 비활성형 비타민D3 영양제 및 일반 칼슘제 복용 권장 (전문의약품 보류)</p>
+                <p><strong>처방 가이드:</strong> 일반 비활성형 비타민D3 영양제 및 일반 칼슘제 복용 권장</p>
             `;
         } else {
             // 골다공증이면서 신장이 정상인 경우 (골표지자 btm에 따른 메인약 선별 로직 연동)
@@ -381,7 +381,7 @@ function calculate() {
 
             resultDiv.innerHTML = `
                 <h4 style="color:var(--success); margin-top:0;">🟢 신기능 정상 환자의 시너지 병용 처방</h4>
-                <p><strong>처방 가이드:</strong> 메인 치료제로 [${mainDrug}] 배치 + [본키연질캡슐]과 [칼슘 알약] 동시 병용 처방으로 시너지 극대화</p>
+                <p><strong>처방 가이드:</strong> 메인 치료제로 [${mainDrug}] + [본키연질캡슐]과 [칼슘 알약] 동시 병용 처방으로 시너지 극대화</p>
                 <div style="background:#fff; padding:12px; border-left:5px solid var(--success); border-radius:4px; margin-top:10px; font-size:0.95rem; color:#1e293b;">
                     <strong>💡 대체 가능 가이드 (환자 편의성 제고)</strong><br>
                     환자의 신장 배출 능력이 정상(GFR ≥ 60)이므로 복용이 까다로운 본키 대신 
