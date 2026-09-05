@@ -323,9 +323,9 @@ function calculate() {
                 <ul>
                     <li><strong>본키연질캡슐 (활성형 비타민D):</strong> <strong>즉시 투여 중지</strong> (장에서의 칼슘 흡수를 차단해야 합니다.)</li>
                     <li><strong>칼슘 영양제 / 처방약:</strong> <strong>일절 금지 (처방 제외)</strong></li>
-                    <li><strong>메인 치료제 (프롤리아 / 비스포스포네이트):</strong> 
+                    <li><strong>메인 치료제 (데노수맙 / 비스포스포네이트):</strong> 
                         <ul>
-                            <li><strong>프롤리아(디노수맙):</strong> 주사 직후 혈중 칼슘을 뼈가 급격히 빨아들여 오히려 칼슘 수치를 낮추는 성질이 있으므로 원칙적으로 중단할 필요는 없으나, 투여 타이밍은 신장 기능과 연계하여 의사의 밀착 판단이 필요합니다.</li>
+                            <li><strong>데노수맙:</strong> 주사 직후 혈중 칼슘을 뼈가 급격히 빨아들여 오히려 칼슘 수치를 낮추는 성질이 있으므로 원칙적으로 중단할 필요는 없으나, 투여 타이밍은 신장 기능과 연계하여 의사의 밀착 판단이 필요합니다.</li>
                             <li><strong>비스포스포네이트(BP):</strong> 일시적으로 투여를 보류하고 혈중 수치가 정상화된 후 재개를 권고합니다.</li>
                         </ul>
                     </li>
@@ -345,7 +345,7 @@ function calculate() {
         if (tscore === 'osteoporosis') {
             resultDiv.innerHTML = `
                 <h4 style="color:var(--warning); margin-top:0;">⚠️ 신기능 저하 노인의 골다공증 처방</h4>
-                <p><strong>처방 가이드:</strong> 프롤리아 주사 필수 + [본키 단독 처방] (칼슘 알약은 제외)</p>
+                <p><strong>처방 가이드:</strong> 데노수맙 주사 필수 + [본키 단독 처방] (칼슘 알약은 제외)</p>
             `;
         } else if (tscore === 'osteopenia') {
             resultDiv.innerHTML = `
@@ -372,11 +372,11 @@ function calculate() {
         } else {
             // 골다공증이면서 신장이 정상인 경우 (골표지자 btm에 따른 메인약 선별 로직 연동)
            
-        let mainDrug = '골흡수억제제(프롤리아) 표준 요법';
+        let mainDrug = '골흡수억제제(데노수맙 주사 또는 BP 중 택1) 표준 요법';
         if (tscore === 'severe' || btm === 'low_p1np') {
             mainDrug = '골형성촉진제 주사 요법';
         } else if (btm === 'normal_btm') {
-            mainDrug = '기존 골다공증 치료제(프롤리아/BP) 유지 및 관찰';
+            mainDrug = '기존 골다공증 치료제(데노수맙 주사 또는 BP ) 유지 및 관찰';
         }
 
             resultDiv.innerHTML = `
