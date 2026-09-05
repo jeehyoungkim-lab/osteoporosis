@@ -240,7 +240,9 @@
             <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 8px; color: #334155; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px;">4. 골표지자 (BTM 지표)</div>
             <div class="radio-options">
                 <label class="radio-label selected"><input type="radio" name="btm" value="high_ctx" checked onchange="calculate()"> <div><strong>파괴 가파름 (CTX↑)</strong></div></label>
+                <label class="radio-label"><input type="radio" name="btm" value="normal_btm" onchange="calculate()"> <div><strong>정상 범위 (치료 안정기)</strong></div></label>
                 <label class="radio-label"><input type="radio" name="btm" value="low_p1np" onchange="calculate()"> <div><strong>형성 고갈 (P1NP↓)</strong></div></label>
+                
             </div>
         </div>
 
@@ -369,7 +371,14 @@ function calculate() {
             `;
         } else {
             // 골다공증이면서 신장이 정상인 경우 (골표지자 btm에 따른 메인약 선별 로직 연동)
-            const mainDrug = (tscore === 'severe' || btm === 'low_p1np') ? '골형성촉진제 주사 요법' : '골흡수억제제(프롤리아) 표준 요법';
+           
+        let mainDrug = '골흡수억제제(프롤리아) 표준 요법';
+        if (tscore === 'severe' || btm === 'low_p1np') {
+            mainDrug = '골형성촉진제 주사 요법';
+        } else if (btm === 'normal_btm') {
+            mainDrug = '기존 골다공증 치료제(프롤리아/BP) 유지 및 관찰';
+        }
+
             resultDiv.innerHTML = `
                 <h4 style="color:var(--success); margin-top:0;">🟢 신기능 정상 환자의 시너지 병용 처방</h4>
                 <p><strong>처방 가이드:</strong> 메인 치료제로 [${mainDrug}] 배치 + [본키연질캡슐]과 [칼슘 알약] 동시 병용 처방으로 시너지 극대화</p>
