@@ -373,8 +373,14 @@ function calculate() {
             resultDiv.innerHTML = `
                 <h4 style="color:var(--success); margin-top:0;">🟢 신기능 정상 환자의 시너지 병용 처방</h4>
                 <p><strong>처방 가이드:</strong> 메인 치료제로 [${mainDrug}] 배치 + [본키연질캡슐]과 [칼슘 알약] 동시 병용 처방으로 시너지 극대화</p>
+                <div style="background:#fff; padding:12px; border-left:5px solid var(--success); border-radius:4px; margin-top:10px; font-size:0.95rem; color:#1e293b;">
+                    <strong>💡 대체 가능 가이드 (환자 편의성 제고)</strong><br>
+                    환자의 신장 대사 및 배출 능력이 정상(GFR ≥ 60)이므로, 관리 및 복용이 까다로운 전문의약품 활성형 비타민D(본키) 대신 
+                    <span style="color:var(--primary); font-weight:700;">시중의 일반 칼슘 + 비타민D(비활성형 D3) 복합 영양제(또는 일반의약품)로 대체 복용하셔도 안전하며 충분한 치료 시너지 효과</span>를 기대할 수 있습니다.
+                </div>
             `;
         }
+
     }
 }
 
