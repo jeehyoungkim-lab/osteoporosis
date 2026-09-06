@@ -220,8 +220,18 @@
         <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px;">
             <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 8px; color: #334155; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px;">2. 신장 기능 (GFR)</div>
             <div class="radio-options">
-                <label class="radio-label"><input type="radio" name="gfr" value="low" onchange="calculate()"> <div><strong>신기능 감소 (&lt;60)</strong></div></label>
-                <label class="radio-label selected"><input type="radio" name="gfr" value="normal" checked onchange="calculate()"> <div><strong>신장 기능 정상</strong></div></label>
+                <label class="radio-label">
+                            <input type="radio" name="gfr" value="severe_low" id="gfrSevereLow" onchange="calculate()"> 
+                            <div><strong>중증 신기능 저하 (&lt;45)</strong></div>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="gfr" value="low" id="gfrLow" onchange="calculate()"> 
+                            <div><strong>경도~중등도 저하 (45~59)</strong></div>
+                        </label>
+                        <label class="radio-label selected">
+                            <input type="radio" name="gfr" value="normal" id="gfrNormal" checked onchange="calculate()"> 
+                            <div><strong>신장 기능 정상 (≥60)</strong></div>
+                        </label>
             </div>
         </div>
 
@@ -338,24 +348,44 @@ function calculate() {
 
 
     // [중간 분기] 신장 기능이 떨어진 경우 (GFR < 60)
+     === 'severe_low') {
+        resultDiv.style.backgroundColor = '#fef2f2';
+        resultDiv.style.border = '1px solid #fee2e2';
+        
+        // 골다공증 상태(tscore)에 상관없이 중증 신기능 저하 시 최우선 처방 가이드 출력
+        resultDiv.innerHTML = `
+            <h4 style="color:var(--danger); margin-top:0;">🚨 중증 신기능 저하 단계 (GFR < 45) 처방 가이드</h4>
+            <p><strong>임상적 의미:</strong> 신장의 칼슘 여과 능력이 심각하게 억제되어 있으며, 부갑상선 호르몬(PTH)의 대사 불균형이 강해지는 고위험 단계입니다.</p>
+            <div style="background:#fff; padding:15px; border-left:5px solid var(--danger); border-radius:4px; font-size:0.95rem;">
+                <ul>
+                    <li><strong>본키연질캡슐 (활성형 비타민D):</strong> <span style="color:var(--danger); font-weight:700;">필수 처방</span> (신기능 상실로 인한 활성 비타민D 결핍을 막기 위해 본키를 투여하되, 혈중 칼슘을 감시하며 미세 조절합니다.)</li>
+                    <li><strong>칼슘 알약 제제:</strong> <span style="color:var(--danger); font-weight:700;">처방전에서 절대 제외 (일절 금지)</span> (혈관 석회화 및 콩팥 손상 위험이 극도로 높은 단계이므로 인위적인 칼슘 공급은 차단하고 오직 식단 관리만 유도합니다.)</li>
+                    <li><strong>메인 치료제 전략:</strong> 신장 대사 부담이 없는 프롤리아(데노수맙)를 우선 고려하되, 주사 직후 저칼슘혈증 쇼크가 오지 않도록 본키의 꼼꼼한 용량 배정 및 PTH 수치 모니터링이 1~3개월 단위로 병행되어야 합니다.</li>
+                </ul>
+            </div>
+        `;
+        return; // 판정이 끝났으므로 조기 종료
+    }
+
+    // [중간 분기 2]: 기존의 GFR 45~59 (경도~중등도 저하) 단계
     if (gfr === 'low') {
         resultDiv.style.backgroundColor = '#fff7ed';
         resultDiv.style.border = '1px solid #ffedd5';
         
         if (tscore === 'osteoporosis') {
             resultDiv.innerHTML = `
-                <h4 style="color:var(--warning); margin-top:0;">⚠️ 신기능 저하 노인의 골다공증 처방</h4>
-                <p><strong>처방 가이드:</strong> 데노수맙 주사 필수 + [본키 단독 처방] (칼슘 알약은 제외)</p>
+                <h4 style="color:var(--warning); margin-top:0;">⚠️ 신기능 경도~중등도 저하 노인의 골다공증 표준 처방</h4>
+                <p><strong>처방 가이드:</strong> 프롤리아 주사 필수 + [본키 단독 처방] (칼슘 알약은 부작용 우려로 처방전 제외)</p>
             `;
         } else if (tscore === 'osteopenia') {
             resultDiv.innerHTML = `
-                <h4 style="color:var(--warning); margin-top:0;">⚠️ 신기능 저하 및 골감소증 단계</h4>
+                <h4 style="color:var(--warning); margin-top:0;">⚠️ 신기능 경도~중등도 저하 및 골감소증 단계</h4>
                 <p><strong>처방 가이드:</strong> 메인 치료제 보류 + [본키 단독 처방(0.25µg)] (칼슘 알약은 제외)</p>
             `;
         } else if (tscore === 'severe') {
             resultDiv.innerHTML = `
-                <h4 style="color:var(--danger); margin-top:0;">🚨 신기능 저하 및 중증 골다공증 (최고 위험)</h4>
-                <p><strong>처방 가이드:</strong> [골형성촉진제 주사]로 업그레이드 필수 + [본키 필수 병용] (칼슘 알약은 제외 또는 제한)</p>
+                <h4 style="color:var(--danger); margin-top:0;">🚨 신기능 경도~중등도 저하 및 중증 골다공증 (고위험)</h4>
+                <p><strong>처방 가이드:</strong> [골형성촉진제 주사]로 업그레이드 필수 + [본키 필수 병용] (칼슘 알약은 제외 또는 극소량 제한)</p>
             `;
         }
     } 
