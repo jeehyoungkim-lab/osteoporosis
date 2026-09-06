@@ -348,7 +348,7 @@ function calculate() {
 
 
     // [중간 분기] 신장 기능이 떨어진 경우 (GFR < 60)
-     === 'severe_low') {
+    if (gfr === 'severe_low') {
         resultDiv.style.backgroundColor = '#fef2f2';
         resultDiv.style.border = '1px solid #fee2e2';
         
