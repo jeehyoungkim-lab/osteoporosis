@@ -213,7 +213,8 @@
             <div class="radio-options">
                 <label class="radio-label"><input type="radio" name="cap" value="high" onchange="calculate()"> <div><strong>위험 (고칼슘/고인산)</strong></div></label>
                 <label class="radio-label selected"><input type="radio" name="cap" value="normal" checked onchange="calculate()"> <div><strong>정상 범위</strong></div></label>
-            </div>
+                <label class="radio-label"><input type="radio" name="cap" value="low" onchange="calculate()"> <div><strong>주의/위험 (저칼슘 또는 정상 하한선 경계군 Ca < 8.5 mg/dL 또는 8.5~9.0 mg/dL)</strong></div></label>
+             </div>
         </div>
 
         <!-- 2번 필터 -->
@@ -346,7 +347,29 @@ function calculate() {
         return; // 안전장치 가동 후 조기 종료
     }
 
-
+    else if (cap === 'low') {
+        resultDiv.style.backgroundColor = '#fffbeb'; // 경고용 미세한 황색 배경 (Amber 50)
+        resultDiv.style.border = '1px solid #fef3c7'; // Amber 200
+        resultDiv.innerHTML = `
+            <h4 style="color:#d97706; margin-top:0;">⚠️ 저칼슘혈증 위험 / 정상 하한선 경계군 주의</h4>
+            <p><strong>임상적 의미:</strong> 혈청 내 칼슘 농도가 낮거나 아슬아슬하게 걸쳐 있어, 강력한 골흡수 억제제(데노수맙 등) 투여 시 치명적인 저칼슘혈증이 유발될 수 있습니다. <strong>선제적 칼슘 공급이 필수적</strong>입니다.</p>
+            <div style="background:#fff; padding:15px; border-left:5px solid #d97706; border-radius:4px;">
+                <h5 style="margin-top:0; margin-bottom:10px; font-size:1rem;">🛠️ 선제적 처방 조정 및 대처 지침</h5>
+                <ul>
+                    <li><strong>본키연질캡슐 (활성형 비타민D):</strong> <strong>필수 처방 및 유지</strong> (대사 과정 없이 장에서 칼슘 흡수를 즉각 촉진하므로 일반 비타민D보다 안전망 구축에 훨씬 유용합니다.)</li>
+                    <li><strong>칼슘 영양제 / 처방약:</strong> <strong>반드시 동시 처방</strong> (원인 질환에 맞춰 일일 권장 칼슘 섭취량을 채울 수 있도록 베이스 처방을 유지하십시오.)</li>
+                    <li><strong>메인 치료제 처방 타이밍:</strong> 
+                        <ul>
+                            <li><strong>데노수맙 (프롤리아):</strong> 투여 직후 초기 칼슘 드롭이 매우 심하므로, 본키와 칼슘제를 투여해 <strong>혈중 칼슘 농도를 정상 범위 안정권으로 회복(Correction) 시킨 후 주사를 투여</strong>하는 것이 안전합니다.</li>
+                            <li><strong>비스포스포네이트 (BP):</strong> 마찬가지로 투여 전 칼슘 결핍 상태를 먼저 교정해야 합니다.</li>
+                        </ul>
+                    </li>
+                    <li><strong>추적 모니터링:</strong> 메인 약제(특히 데노수맙) 투여 후 <strong>1~2주 이내에 반드시 F/U 피검사</strong>를 실시하여 혈중 칼슘이 위험 수준 이하로 떨어지지 않는지 추적 관찰하십시오.</li>
+                </ul>
+            </div>
+        `;
+        return; // 선제 조치를 강조하기 위한 조기 종료 (필요시 제거 가능, 하단 설명 참조)
+    }
     // [중간 분기] 신장 기능이 떨어진 경우 (GFR < 60)
     if (gfr === 'severe_low') {
         resultDiv.style.backgroundColor = '#fef2f2';
