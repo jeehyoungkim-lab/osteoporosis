@@ -173,6 +173,112 @@
             text-align: center;
             margin-top: 40px;
         }
+        /* 보험 기준 가이드 전체 컨테이너 */
+        .insurance-guide-container {
+            max-width: 1000px; /* 시뮬레이터 박스 너비에 맞춰 조절하세요 */
+            margin: 15px auto 25px auto;
+            font-family: inherit;
+        }
+        
+        /* 풀다운 버튼 스타일 */
+        details {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        details[open] {
+            border-color: #3b82f6; /* 열렸을 때 파란색 테두리 포인트 */
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.1);
+        }
+        
+        summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            font-weight: 600;
+            color: #4a5568;
+            cursor: pointer;
+            list-style: none; /* 기본 화살표 제거 */
+            background-color: #f8fafc;
+        }
+        
+        summary::-webkit-details-marker {
+            display: none; /* 사파리용 기본 화살표 제거 */
+        }
+        
+        summary:hover {
+            background-color: #f1f5f9;
+        }
+        
+        .summary-text {
+            font-size: 14px;
+            color: #334155;
+        }
+        
+        .summary-icon {
+            font-size: 12px;
+            color: #94a3b8;
+            transition: transform 0.2s ease;
+        }
+        
+        details[open] summary .summary-icon {
+            transform: rotate(180deg); /* 열렸을 때 화살표 뒤집기 */
+            color: #3b82f6;
+        }
+        
+        /* 펼쳐지는 내부 콘텐츠 스타일 */
+        .details-content {
+            padding: 20px;
+            border-top: 1px solid #e2e8f0;
+            background-color: #ffffff;
+        }
+        
+        /* 2열 배치 테이블 구조 */
+        .insurance-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 12px;
+        }
+        
+        .insurance-table td {
+            width: 50%;
+            padding: 12px 15px;
+            vertical-align: top;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        /* 신장기능은 텍스트가 중요하므로 마지막 줄에 가로로 길게 배치 */
+        .insurance-table .full-width-td {
+            width: 100%;
+            border-bottom: none;
+            padding-top: 16px;
+        }
+        
+        .insurance-table strong {
+            display: block;
+            font-size: 14px;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+        
+        .insurance-table p {
+            margin: 0;
+            font-size: 13px;
+            color: #64748b;
+            line-height: 1.4;
+        }
+        
+        .table-notice {
+            margin: 0;
+            font-size: 11px;
+            color: #94a3b8;
+            text-align: right;
+        }
     </style>
 </head>
 <body>
@@ -181,6 +287,45 @@
     <header>
         <h1>골다공증 & 신기능 맞춤 처방 시뮬레이터</h1>
         <p>6대 핵심 생체 지표(칼슘, 인, 신장, 골밀도, 비타민D, 골표지자) 기반 매트릭스 알고리즘</p>
+            <div class="insurance-guide-container">
+                    <details>
+                        <summary>
+                            <span class="summary-text">🔍 6대 지표 건강보험 적용 기준 보기</span>
+                            <span class="summary-icon">▼</span>
+                        </summary>
+                        <div class="details-content">
+                            <table class="insurance-table">
+                                <tr>
+                                    <td>
+                                        <strong>🦴 골밀도 검사 (DXA)</strong>
+                                        <p>65세 이상 여성·70세 이상 남성 등 급여 기준 충족 시 연 1회 (치료 중 추적검사 연 1회 인정)</p>
+                                    </td>
+                                    <td>
+                                        <strong>🧬 골표지자 검사 (BTM)</strong>
+                                        <p>약물 치료 시작 전 1회 및 치료 플랜 시작 후 효과 판정을 위해 연 2회 이내 급여 인정</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>☀️ 비타민 D 검사</strong>
+                                        <p>골다공증 진단 환자 대상, 투여 전 1회 및 복용·치료 지속 시 연 2회까지 인정</p>
+                                    </td>
+                                    <td>
+                                        <strong>🧪 칼슘 & 인 검사</strong>
+                                        <p>골다공증 진단 및 모니터링 목적의 루틴 혈액검사 항목으로 포함 시 상시 급여 가능</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="full-width-td">
+                                        <strong>🫘 신장 기능 검사 (BUN, Cr, eGFR)</strong>
+                                        <p>약제 선택(BP 금기 판단) 및 투여 전후 부작용 모니터링 정기 검사 시 모두 건강보험 적용</p>
+                                    </td>
+                                </tr>
+                            </table>
+                            <p class="table-notice">※ 본 기준은 건강보험심사평가원 고시에 근거하며, 환자의 개별 진단명 및 세부 조건에 따라 다르게 적용될 수 있습니다.</p>
+                        </div>
+                    </details>
+                </div>
     </header>
     <!-- 🔢 사구체여과율(GFR) 독립형 자동 계산기 위젯 -->
     <div class="card" style="margin-bottom: 15px; padding: 15px;">
@@ -304,7 +449,7 @@ const prescriptionMatrix = [
                 <li><strong>활성형 비타민D:</strong> <strong>즉시 투여 중지</strong> (장에서의 칼슘 흡수를 차단해야 합니다.)</li>
                 <li><strong>칼슘 영양제 / 처방약:</strong> <strong>일절 금지 (처방 제외)</strong></li>
                 <li><strong>메인 치료제:</strong> 데노수맙은 의사의 밀착 판단 하에 결정하되, 비스포스포네이트(BP)는 일시적으로 투여를 보류하고 수치 정상화 후 재개를 권고합니다.</li>
-                <li><strong>추적 모니터링:</strong> 1~2주 내로 재피검사를 하여 칼슘이 정상 범위로 복귀하는지 감시하십시오.</li>
+                <li><strong>추적 모니터링:</strong> 1~2주 내로 다시 피검사를 하여 칼슘이 정상 범위로 복귀하는지 감시하십시오.</li>
             </ul>
         </div>`
     },
