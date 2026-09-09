@@ -362,7 +362,7 @@ function calculate() {
                     <li><strong>칼슘 영양제 / 처방약:</strong> <strong>반드시 동시 처방</strong> (원인 질환에 맞춰 일일 권장 칼슘 섭취량을 채울 수 있도록 베이스 처방을 유지하십시오.)</li>
         `;
 
-        // 2. 신장 기능(kidney) 조건 적용
+        // 2. 신장 기능(kidney) 조건 적용 (선생님 툴의 실제 value 값 반영)
         if (kidney === 'normal') {
             lowHTML += `
                     <li><strong>메인 치료제 처방 타이밍 (신기능 정상):</strong> 
@@ -371,16 +371,16 @@ function calculate() {
                             <li><strong>비스포스포네이트 (BP):</strong> 마찬가지로 투여 전 칼슘 결핍 상태를 먼저 교정해야 합니다.</li>
                         </ul>
                     </li>
-            `;
-        } else if (kidney === 'mild') {
+                `;
+        } else if (kidney === 'low_mild') {
             lowHTML += `
                     <li><strong>메인 치료제 처방 타이밍 (신기능 경도~중등도 저하):</strong> 
                         <ul>
                             <li><strong>데노수맙 (프롤리아):</strong> 신기능 저하가 동반되기 시작하여 일반 환자보다 저칼슘혈증 위험이 한층 높습니다. 본키+칼슘제 사전 교정을 강력히 권장하며, 투여 후 2주 내 리체크를 고려하십시오.</li>
                         </ul>
                     </li>
-            `;
-        } else if (kidney === 'severe') {
+                `;
+        } else if (kidney === 'low_severe') {
             lowHTML += `
                     <li><strong>🚨 극고위험군 매칭 (중증 신기능 저하 + 저칼슘):</strong> 
                         <ul>
@@ -388,15 +388,15 @@ function calculate() {
                             <li><strong>대처 요령:</strong> <strong>본키(Calcitriol) 고용량 요법과 적극적인 칼슘 보충이 필수적</strong>이며, 주사 투여 후 1주 내로 반드시 칼슘 수치를 리체크해야 합니다.</li>
                         </ul>
                     </li>
-            `;
+                `;
         }
 
-        // 3. 골밀도(tscore) 조건 적용 (T-score 변수명에 맞게 분기 설정)
-        if (tscore === 'severe') {
+        // 3. 골밀도(tScore) 조건 적용 (선생님 툴의 실제 변수명 tScore 및 value 값 반영)
+        if (tScore === 'severe') {
             lowHTML += `<li><strong>골밀도 단계별 조언 (중증 골다공증):</strong> T-score가 -3.0 이하로 골절 위험이 급박하므로 약제 투여를 오래 늦추기 어렵습니다. 저칼슘 교정을 1~2주 내로 신속히 완료하고 즉시 치료에 진입하십시오.</li>`;
-        } else if (tscore === 'confirm') {
+        } else if (tScore === 'confirmed') {
             lowHTML += `<li><strong>골밀도 단계별 조언 (골다공증 확진):</strong> 일반적인 치료 가이드라인 대상입니다. 본키와 칼슘 처방을 통해 안전하게 칼슘 수치를 끌어올린 후 메인 약제 치료를 시작하십시오.</li>`;
-        } else if (tscore === 'osteopenia') {
+        } else if (tScore === 'osteopenia') {
             lowHTML += `<li><strong>골감소증 단계별 조언 (골감소증 경계):</strong> 현재 골감소증 단계이므로 치료의 시급성이 상대적으로 낮습니다. 칼슘 수치가 낮다면 데노수맙 투여를 수 주간 보류하고, 본키 치료를 통해 혈중 칼슘을 완전히 정상화한 후 투여해도 안전합니다.</li>`;
         }
 
@@ -409,8 +409,9 @@ function calculate() {
 
         // 5. 최종 화면 출력 및 함수 조기 종료 안전장치
         resultDiv.innerHTML = lowHTML;
-        return; // 🚨 이 return이 있어야 아래쪽의 다른 '정상 기능 표준처방' 조건문들이 실행되지 않고 여기서 멈춥니다!
+        return; 
     }
+
 
 
         // 3. [골밀도(tscore) 조건 적용] 기존 스크립트 상의 변수명에 맞게 조정하세요
