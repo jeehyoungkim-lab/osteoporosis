@@ -362,7 +362,7 @@ function calculate() {
                     <li><strong>칼슘 영양제 / 처방약:</strong> <strong>반드시 동시 처방</strong> (원인 질환에 맞춰 일일 권장 칼슘 섭취량을 채울 수 있도록 베이스 처방을 유지하십시오.)</li>
         `;
 
-        // 2. [신장 기능(kidney) 조건 적용] 기존 스크립트 상의 변수명에 맞게 조정하세요
+        // 2. 신장 기능(kidney) 조건 적용
         if (kidney === 'normal') {
             lowHTML += `
                     <li><strong>메인 치료제 처방 타이밍 (신기능 정상):</strong> 
@@ -390,6 +390,28 @@ function calculate() {
                     </li>
             `;
         }
+
+        // 3. 골밀도(tscore) 조건 적용 (T-score 변수명에 맞게 분기 설정)
+        if (tscore === 'severe') {
+            lowHTML += `<li><strong>골밀도 단계별 조언 (중증 골다공증):</strong> T-score가 -3.0 이하로 골절 위험이 급박하므로 약제 투여를 오래 늦추기 어렵습니다. 저칼슘 교정을 1~2주 내로 신속히 완료하고 즉시 치료에 진입하십시오.</li>`;
+        } else if (tscore === 'confirm') {
+            lowHTML += `<li><strong>골밀도 단계별 조언 (골다공증 확진):</strong> 일반적인 치료 가이드라인 대상입니다. 본키와 칼슘 처방을 통해 안전하게 칼슘 수치를 끌어올린 후 메인 약제 치료를 시작하십시오.</li>`;
+        } else if (tscore === 'osteopenia') {
+            lowHTML += `<li><strong>골감소증 단계별 조언 (골감소증 경계):</strong> 현재 골감소증 단계이므로 치료의 시급성이 상대적으로 낮습니다. 칼슘 수치가 낮다면 데노수맙 투여를 수 주간 보류하고, 본키 치료를 통해 혈중 칼슘을 완전히 정상화한 후 투여해도 안전합니다.</li>`;
+        }
+
+        // 4. 공통 하단 가이드라인 마무리 및 태그 닫기
+        lowHTML += `
+                    <li><strong>추적 모니터링:</strong> 메인 약제(특히 데노수맙) 투여 후 <strong>1~2주 이내에 반드시 F/U 피검사</strong>를 실시하여 혈중 칼슘이 위험 수준 이하로 떨어지지 않는지 추적 관찰하십시오.</li>
+                </ul>
+            </div>
+        `;
+
+        // 5. 최종 화면 출력 및 함수 조기 종료 안전장치
+        resultDiv.innerHTML = lowHTML;
+        return; // 🚨 이 return이 있어야 아래쪽의 다른 '정상 기능 표준처방' 조건문들이 실행되지 않고 여기서 멈춥니다!
+    }
+
 
         // 3. [골밀도(tscore) 조건 적용] 기존 스크립트 상의 변수명에 맞게 조정하세요
         if (tscore === 'severe') {
