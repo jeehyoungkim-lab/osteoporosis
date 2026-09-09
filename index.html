@@ -296,7 +296,7 @@ function runGfrCalculatorOnly() {
 // 📊 [엑셀 데이터베이스 저장] 모든 조건 조합과 스타일을 행별로 정의
 const prescriptionMatrix = [
     { cap: 'high', gfr: 'ANY', tscore: 'ANY', btm: 'ANY', bg: '#fef2f2', border: '#fee2e2', html: `
-        <h4 style="color:var(--danger); margin-top:0;">🚨 고칼슘/고인산혈증 경보</h4>
+        <h4 style="color:var(--danger); margin-top:0;">🚨 고칼슘/고인산혈증 경보 - 신장내과 협진 필수</h4>
         <p><strong>임상적 의미:</strong> 혈청 내 칼슘/인 농도가 높아 안전상 즉각적인 처방 가감이 필요합니다.</p>
         <div style="background:#fff; padding:15px; border-left:5px solid var(--danger); border-radius:4px;">
             <h5 style="margin-top:0; margin-bottom:10px; font-size:1rem;">🛑 처방 조정 및 대처 지침</h5>
@@ -347,7 +347,7 @@ const prescriptionMatrix = [
         <p><strong>지침:</strong> 메인 약제를 보류합니다. 골밀도 시급성이 낮으므로 데노수맙/BP 치료 진입을 늦추고, 활성형 비타민D 처방으로 혈중 칼슘 정상화에 최우선 집중하십시오.</p>`
     },
     { cap: 'low', gfr: 'severe_low', tscore: 'ANY', btm: 'ANY', bg: '#fffbeb', border: '#fef3c7', html: `
-        <h4 style="color:#d97706; margin-top:0;">🚨 극고위험군 매칭 (중증 신기능 저하 + 저칼슘혈증)</h4>
+        <h4 style="color:#d97706; margin-top:0;">🚨 극고위험군 매칭 (중증 신기능 저하 + 저칼슘혈증) 신장내과 협진 필수</h4>
         <p><strong>임상적 의미:</strong> 비스포스포네이트 절대 금기 단계입니다. 데노수맙 주사 직후 저칼슘혈증 쇼크 위험이 극도로 높습니다.</p>
         <div style="background:#fff; padding:15px; border-left:5px solid #d97706; border-radius:4px;">
             <h5 style="margin-top:0; margin-bottom:10px; font-size:1rem;">🛠️ 처방 가이드</h5>
@@ -359,7 +359,7 @@ const prescriptionMatrix = [
         </div>`
     },
     { cap: 'normal', gfr: 'severe_low', tscore: 'ANY', btm: 'ANY', bg: '#fef2f2', border: '#fee2e2', html: `
-        <h4 style="color:var(--danger); margin-top:0;">🛑 중증 신기능 저하 단계 (GFR &lt; 45) 처방 가이드</h4>
+        <h4 style="color:var(--danger); margin-top:0;">🛑 중증 신기능 저하 단계 (GFR &lt; 45) 처방 가이드 - 신장내과 협진 필수</h4>
         <p><strong>임상적 의미:</strong> 신장의 칼슘 여과 능력이 심각하게 억제되어 있으며, 부갑상선 호르몬(PTH)의 대사 불균형이 강해지는 고위험 단계입니다.</p>
         <div style="background:#fff; padding:15px; border-left:5px solid var(--danger); border-radius:4px; font-size:0.95rem;">
             <ul>
