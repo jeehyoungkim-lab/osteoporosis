@@ -399,9 +399,17 @@
         <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px;">
             <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 8px; color: #334155; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px;">3. 골밀도 (T-score)</div>
             <div class="radio-options">
-                <label class="radio-label"><input type="radio" name="tscore" value="severe" onchange="calculate()"> <div><strong>중증 (≤ -3.0)</strong></div></label>
-                <label class="radio-label selected"><input type="radio" name="tscore" value="osteoporosis" checked onchange="calculate()"> <div><strong>확진 (≤ -2.5)</strong></div></label>
-                <label class="radio-label"><input type="radio" name="tscore" value="osteopenia" onchange="calculate()"> <div><strong>골감소증 (&gt; -2.5)</strong></div></label>
+                <label class="radio-label"><input type="radio" name="tscore" value="severe" onchange="toggleFractureOption(); calculate();"> <div><strong>중증 (≤ -3.0)</strong></div></label>
+                <label class="radio-label selected"><input type="radio" name="tscore" value="osteoporosis" checked onchange="toggleFractureOption(); calculate();"> <div><strong>확진 (≤ -2.5)</strong></div></label>
+                <label class="radio-label"><input type="radio" name="tscore" value="osteopenia" onchange="toggleFractureOption(); calculate();"> <div><strong>골감소증 (&gt; -2.5)</strong></div></label>
+            </div>
+            
+            <!-- 골절 여부 동적 체크박스 (평소에는 보이되, 골감소증 선택 시 스크립트로 숨김 처리 가능) -->
+            <div id="fractureContainer" style="margin-top: 10px; padding-top: 8px; border-top: 1px dashed #e2e8f0; display: block;">
+                <label style="display: flex; align-items: center; font-size: 0.88rem; color: #ef4444; font-weight: 600; cursor: pointer;">
+                    <input type="checkbox" id="hasMultipleFractures" onchange="calculate()" style="margin-right: 6px; width: 16px; height: 16px;">
+                    💥 중심골(척추·대퇴골) 골다공증성 골절 2개 이상 발생
+                </label>
             </div>
         </div>
 
@@ -469,8 +477,21 @@ function runGfrCalculatorOnly() {
     
     document.getElementById('calcGfrResult').innerHTML = `➡️ 계산 결과 GFR: <span style="color:var(--warning); font-size:1.15rem;">${gfr}</span> mL/min/1.73㎡`;
 }
-
-
+// 골절 병력을 표시할지 말지 결정
+function toggleFractureOption() {
+    const tscore = document.querySelector('input[name="tscore"]:checked').value;
+    const container = document.getElementById('fractureContainer');
+    const checkbox = document.getElementById('hasMultipleFractures');
+    
+    if (tscore === 'osteopenia') {
+        // 골감소증일 때는 골절 체크박스를 숨기고 체크를 해제함 (급여 대상 외)
+        container.style.display = 'none';
+        checkbox.checked = false;
+    } else {
+        // 중증이나 확진일 때만 화면에 노출
+        container.style.display = 'block';
+    }
+}
 // 📊 [엑셀 데이터베이스 저장] 모든 조건 조합과 스타일을 행별로 정의
 const prescriptionMatrix = [
     { cap: 'high', gfr: 'ANY', tscore: 'ANY', btm: 'ANY', bg: '#fef2f2', border: '#fee2e2', html: `
