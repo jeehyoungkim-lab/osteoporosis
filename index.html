@@ -607,6 +607,7 @@ const prescriptionMatrix = [
 ];
 
 // 메인 실시간 조회 엔진 (VLOOKUP 방식)
+// 메인 실시간 조회 엔진 (VLOOKUP 방식 + 골형성촉진제 조건부 결합)
 function calculate() {
     // 1. UI 선택 시각화 클래스 제어
     document.querySelectorAll('.radio-label').forEach(label => {
@@ -637,18 +638,134 @@ function calculate() {
         return capMatch && gfrMatch && tscoreMatch && btmMatch;
     });
     
-    // 4. 찾은 행의 데이터를 기반으로 결과 UI 채우기 (잔상 방지 및 자동 덮어쓰기)
+    // 기본 결과 HTML을 담아둘 변수 선언
+    let baseHtml = "";
+    
+    // 4. 찾은 행의 데이터를 기반으로 기본 결과 UI 채우기 (스타일 결정)
     if (matchedRow) {
         resultDiv.style.backgroundColor = matchedRow.bg;
         resultDiv.style.border = `1px solid ${matchedRow.border}`;
-        resultDiv.innerHTML = matchedRow.html;
+        baseHtml = matchedRow.html; // 기존의 가이드라인 HTML을 임시 저장
     } else {
         // 혹시나 일치하는 행을 찾지 못했을 때를 대비한 백업 예외 안전장치
         resultDiv.style.backgroundColor = '#f8fafc';
         resultDiv.style.border = '1px solid #e2e8f0';
-        resultDiv.innerHTML = '<h4 style="color:#64748b; margin-top:0;">ℹ️ 세부 조합 조건에 맞는 표준 가이드라인을 매칭 중입니다.</h4>';
+        baseHtml = '<h4 style="color:#64748b; margin-top:0;">ℹ️ 세부 조합 조건에 맞는 표준 가이드라인을 매칭 중입니다.</h4>';
     }
+
+    // -------------------------------------------------------------------------
+    // 🔥 [신규 추가] 골형성촉진제(로모소주맙/테리파라타이드) 독립 연산 및 덧붙이기(Append)
+    // -------------------------------------------------------------------------
+    let anabolicHtml = ""; // 골형성촉진제 결과 창을 담을 변수
+    
+    // UI에 생성해 둔 골절 2개 이상 체크박스 엘리먼트 가져오기
+    const fractureCheckbox = document.getElementById('hasMultipleFractures');
+    const hasFracture = fractureCheckbox ? fractureCheckbox.checked : false;
+
+    // 사용자가 골절 체크박스를 체크한 경우에만 판단 로직 작동
+    if (hasFracture) {
+        // 상단 수동 입력 폼에서 나이, 성별 데이터 실시간 획득
+        const age = parseFloat(document.getElementById('calcAge').value) || 0;
+        const gender = document.getElementById('calcGender').value; // 'female' 또는 'male' 등 기존 값과 매칭 필요
+        const cr = parseFloat(document.getElementById('calcCr').value) || 0;
+
+        // 상단에 짜놓으신 CKD-EPI 2021 공식으로 수치형 GFR 실시간 재연산 (정밀 신기능 판정용)
+        let exactGfr = 90; // 크레아티닌 미입력 시 기본 안전값
+        if (cr > 0 && age > 0) {
+            if (gender === 'female' || gender === '여') {
+                exactGfr = cr <= 0.7 ? 142 * Math.pow(cr / 0.7, -0.241) * Math.pow(0.9938, age) * 1.012 : 142 * Math.pow(cr / 0.7, -1.200) * Math.pow(0.9938, age) * 1.012;
+            } else {
+                exactGfr = cr <= 0.9 ? 142 * Math.pow(cr / 0.9, -0.302) * Math.pow(0.9938, age) : 142 * Math.pow(cr / 0.9, -1.200) * Math.pow(0.9938, age);
+            }
+        }
+
+        // 박스 스타일링 정의 (부드러운 빨간색 테두리와 배경으로 시각적 차별화)
+        anabolicHtml += `
+            <div style="margin-top: 15px; padding: 12px; border: 1px solid #fca5a5; border-radius: 6px; background-color: #fef2f2; text-align: left; box-sizing: border-box;">
+                <div style="font-weight: bold; color: #dc2626; margin-bottom: 6px; font-size: 0.95rem; display: flex; align-items: center;">
+                    💥 초고위험군 골형성촉진제 심평원 급여 검토 결과
+                </div>
+        `;
+
+        if (age < 65) {
+            // 1단계 연령 기준 미달 (만 65세 미만)
+            anabolicHtml += `
+                <p style="margin: 4px 0; font-size: 0.88rem; color: #475569; line-height: 1.4;">
+                    ⚠️ <strong>심평원 급여 불인정 (연령 미달):</strong> 골절 조건은 만족하나 <strong>만 65세 미만</strong>이므로 로모소주맙 및 테리파라타이드의 급여 처방이 불가능합니다.
+                </p>
+                <p style="margin: 4px 0; font-size: 0.83rem; color: #64748b; font-style: italic;">
+                    * 임상 팁: 국제 가이드라인상 골절이 동반된 초고위험군이므로, 환자 상황에 따라 비급여(전액본인부담) 선행 치료를 고려할 수 있습니다.
+                </p>
+            `;
+        } else {
+            // 2단계 연령 기준 충족 (만 65세 이상)
+            if (gender === 'female' || gender === '여') {
+                // [여성인 경우]
+                if (exactGfr >= 30) {
+                    anabolicHtml += `
+                        <p style="margin: 4px 0; font-size: 0.88rem; color: #1e293b; line-height: 1.4;">
+                            ✅ <strong>심평원 급여 승인 가능 (초고위험군 조건 충족):</strong> 65세 이상 여성 및 복수 골절 조건을 모두 만족합니다.
+                        </p>
+                        <p style="margin: 6px 0; font-size: 0.88rem; color: #0f766e; font-weight: 600; line-height: 1.4;">
+                            👉 <strong>[추천] 로모소주맙 (이베니티, 총 12회)</strong> 또는 <strong>테리파라타이드 (최대 24개월)</strong> 우선 처방 고려
+                        </p>
+                    `;
+                } else {
+                    // [여성 + 중증 신기능 저하 eGFR < 30]
+                    anabolicHtml += `
+                        <p style="margin: 4px 0; font-size: 0.88rem; color: #1e293b; line-height: 1.4;">
+                            ✅ <strong>심평원 급여 승인 대상 (단, 신기능 주의):</strong> 65세 이상 여성 및 복수 골절 조건을 충족하나 신기능이 저하되어 있습니다.
+                        </p>
+                        <p style="margin: 4px 0; font-size: 0.88rem; color: #b91c1c; font-weight: 600; line-height: 1.4;">
+                            ❌ <strong>테리파라타이드 투여 금기:</strong> 현재 연산된 GFR이 30 미만이므로 처방할 수 없습니다.
+                        </p>
+                        <p style="margin: 4px 0; font-size: 0.88rem; color: #0f766e; font-weight: 600; line-height: 1.4;">
+                            ⭕ <strong>로모소주맙 (이베니티) 사용 가능:</strong> 단, 저칼슘혈증 발생 위험이 있으므로 추적 모니터링이 필수적입니다.
+                        </p>
+                    `;
+                }
+                
+                // 순차 치료 가이드라인 (여성 공통)
+                anabolicHtml += `
+                    <p style="margin: 8px 0 0 0; padding-top: 6px; border-top: 1px dashed #fca5a5; font-size: 0.83rem; color: #475569; line-height: 1.4;">
+                        💡 <strong>순차 치료 권고:</strong> 골형성촉진제 치료 종료 후에는 형성된 골밀도를 유지하기 위해 즉시 <strong>데노수맙(프롤리아)</strong> 등의 골흡수억제제로 전환 처방해야 급여 연속성이 보장됩니다.
+                    </p>
+                `;
+            } else {
+                // [남성인 경우]
+                if (exactGfr >= 30) {
+                    anabolicHtml += `
+                        <p style="margin: 4px 0; font-size: 0.88rem; color: #1e293b; line-height: 1.4;">
+                            ⚠️ <strong>심평원 급여 조건 검토 (성별 제한 주의):</strong>
+                        </p>
+                        <p style="margin: 4px 0; font-size: 0.88rem; color: #b91c1c; line-height: 1.4;">
+                            ❌ <strong>로모소주맙 급여 불인정:</strong> 심평원 기준상 '폐경 후 여성'만 급여 타깃이므로 남성 처방 시 삭감됩니다.
+                        </p>
+                        <p style="margin: 4px 0; font-size: 0.88rem; color: #0f766e; font-weight: 600; line-height: 1.4;">
+                            ⭕ <strong>테리파라타이드 급여 승인 가능:</strong> 남성 환자도 연령 및 골절 조건 충족 시 급여 처방이 가능하므로 테리파라타이드를 적극 권장합니다.
+                        </p>
+                    `;
+                } else {
+                    // [남성 + 중증 신기능 저하 eGFR < 30]
+                    anabolicHtml += `
+                        <p style="margin: 4px 0; font-size: 0.88rem; color: #b91c1c; font-weight: bold; line-height: 1.4;">
+                            🚨 처방 및 급여 불가 (⚠️ 초고위험 신기능군):
+                        </p>
+                        <p style="margin: 4px 0; font-size: 0.88rem; color: #475569; line-height: 1.4;">
+                            남성 환자로 로모소주맙은 급여가 제한되며, GFR &lt; 30으로 테리파라타이드는 임상적 투여 금기 대상입니다. 일반 골흡수억제제 세부 조절이나 신장내과 협진을 고려하세요.
+                        </p>
+                    `;
+                }
+            }
+        }
+        
+        anabolicHtml += `</div>`;
+    }
+
+    // 5. 덮어쓰기가 아닌 [기존 매칭 결과 + 신규 골형성촉진제 결과]를 최종 결합하여 주입
+    resultDiv.innerHTML = baseHtml + anabolicHtml;
 }
+
 
 // 웹페이지 최초 로드 시 라디오 버튼 선택값 기준으로 1회 자동 실행
 calculate();
