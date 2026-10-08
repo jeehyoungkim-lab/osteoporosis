@@ -647,9 +647,19 @@ const prescriptionMatrix = [
         <h4 style="color:var(--success); margin-top:0;">🍏 신기능 정상 환자의 시너지 병용 처방 (안정 유지형)</h4>
         <p><strong>처방 가이드:</strong> 메인 치료제로 [기존 골다공증 치료제(데노수맙 주사 또는 BP) 유지 및 관찰] + [활성형 비타민D]과 [칼슘 알약] 동시 처방</p>`
     },
-    { cap: 'normal', gfr: 'normal', tscore: 'ANY', btm: 'low_p1np', bg: '#f0fdf4', border: '#dcfce7', html: `
-        <h4 style="color:var(--success); margin-top:0;">🍏 신기능 정상 환자의 시너지 병용 처방 (형성 저하형)</h4>
-        <p><strong>처방 가이드:</strong> 메인 치료제로 [골형성촉진제 주사 요법] + [활성형 비타민D]과 [칼슘 알약] 동시 병용 처방으로 시너지 극대화</p>`
+    { 
+        cap: 'normal', gfr: 'normal', tscore: 'severe', btm: 'low_p1np', bg: '#f0fdf4', border: '#bbf7d0', html: `
+            <h4 style="color:var(--success); margin-top:0;">🍏 신기능 정상 환자의 초고위험군 치료 전략 (형성 저하형)</h4>
+            <p><strong>처방 가이드:</strong> 메인 치료제로 <strong>[골형성촉진제 주사 요법]</strong> + [활성형 비타민D]과 [칼슘 알약] 동시 병용 처방으로 시너지 극대화</p>
+            <p style="font-size:0.82rem; color:#b91c1c; margin-top:4px;">* ⚠️ 다만, 현재 골절 조건이 체크되지 않았다면 심평원 급여는 불인정되며, 국제 가이드라인 기준에 따른 환자 동의 하에 전액본인부담(비급여) 처방 대상입니다.</p>
+        `
+    },
+    { 
+        cap: 'normal', gfr: 'normal', tscore: 'osteoporosis', btm: 'low_p1np', bg: '#f8fafc', border: '#e2e8f0', html: `
+            <h4 style="color:#334155; margin-top:0;">ℹ️ 신기능 정상 환자의 표준 치료 전략 (형성 저하형)</h4>
+            <p><strong>처방 가이드:</strong> 현재 중심골 골절이 없는 T-score -2.5 확진 단계이므로, 이베니티나 테리파라타이드 같은 골형성촉진제는 <strong>급여 및 비급여 대상에서 모두 제외(식약처 적응증 외)</strong>됩니다.</p>
+            <p style="font-weight:600; color:#0f766e; margin-top:6px;">👉 메인 치료제로 [강력한 골흡수억제제(데노수맙 프롤리아 주사 또는 BP) 요법] 처방을 우선적으로 고려하시기 바랍니다.</p>
+        `
     }
 ];
 
