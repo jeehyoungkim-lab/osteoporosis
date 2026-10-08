@@ -398,7 +398,7 @@
             <div style="margin-top: 12px; width: 100%; box-sizing: border-box;">
                 <!-- 클릭하는 버튼 영역 (박스 크기에 맞춰 콤팩트하게 정돈) -->
                 <button type="button" onclick="toggleGfrGuide(event)" style="width: 100%; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 10px; text-align: left; color: #475569; font-weight: bold; font-size: 0.82rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; outline: none; border-style: solid;">
-                    <span>💡 [임상 가이드] GFR 분류 기준과 골다공증 약제 제한선 안내</span>
+                    <span>💡 GFR 분류 기준 안내</span>
                     <span id="gfrGuideArrow" style="transition: transform 0.2s; color: #64748b;">▼</span>
                 </button>
                 
@@ -407,17 +407,17 @@
                     
                     <!-- 1안 설명 섹션 -->
                     <div style="margin-bottom: 10px;">
-                        <div style="font-weight: bold; color: #1e3a8a; margin-bottom: 4px; font-size: 0.83rem; border-bottom: 1px dashed #cbd5e1; padding-bottom: 2px;">📌 1안: 골다공증 약제 제한선(30~35)을 엄격히 반영하는 방식</div>
+                        <div style="font-weight: bold; color: #1e3a8a; margin-bottom: 4px; font-size: 0.83rem; border-bottom: 1px dashed #cbd5e1; padding-bottom: 2px;">📌 골다공증 약제 제한선(30~35) 엄격 반영 방식</div>
                         <ul style="list-style: none; padding-left: 0; margin: 0;">
                             <li style="margin: 3px 0; display: flex; align-items: flex-start;"><span style="color: #ef4444; margin-right: 6px;">🔴</span> <div><strong>중증 신기능 저하 (&lt; 30 또는 35):</strong> 주요 약제(비스포스포네이트, 테리파라타이드) 투여 금기 구간</div></li>
                             <li style="margin: 3px 0; display: flex; align-items: flex-start;"><span style="color: #eab308; margin-right: 6px;">🟡</span> <div><strong>경도~중등도 저하 (35 ~ 59):</strong> 약제 사용은 가능하나 저칼슘혈증 등 모니터링 필요 구간</div></li>
-                            <li style="margin: 3px 0; display: flex; align-items: flex-start;"><span style="color: #22c55e; margin-right: 6px;">🟢</span> <div><strong>신장 기능 정상 (&ge; 60)</strong></div></li>
+                            
                         </ul>
                     </div>
                     
                     <!-- 2안 설명 섹션 -->
                     <div>
-                        <div style="font-weight: bold; color: #0f766e; margin-bottom: 4px; font-size: 0.83rem; border-bottom: 1px dashed #cbd5e1; padding-bottom: 2px;">📌 2안: G3b 단계의 임상적 위험성(신장내과 의뢰 기준)을 유지하는 방식 (현재 시뮬레이터 적용 기준)</div>
+                        <div style="font-weight: bold; color: #0f766e; margin-bottom: 4px; font-size: 0.83rem; border-bottom: 1px dashed #cbd5e1; padding-bottom: 2px;">📌 G3b 단계의 임상적 위험성(신장내과 의뢰 기준)을 강조하는 현재 시뮬레이터 기준</div>
                         <ul style="list-style: none; padding-left: 0; margin: 0;">
                             <li style="margin: 3px 0; display: flex; align-items: flex-start;"><span style="color: #ef4444; margin-right: 6px;">🔴</span> <div><strong>중증 신기능 저하 (&lt; 45):</strong> 신성 골대사 질환(CKD-MBD) 감별 진단 및 신장내과 전문의 의뢰 고려 구간</div></li>
                             <li style="margin: 3px 0; display: flex; align-items: flex-start;"><span style="color: #eab308; margin-right: 6px;">🟡</span> <div><strong>경도~중등도 저하 (45 ~ 59):</strong> 일반적인 골다공증 약제 안전 처방 구간</div></li>
