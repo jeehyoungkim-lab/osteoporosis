@@ -394,6 +394,38 @@
                         </label>
             </div>
         </div>
+        <!-- 2번 GFR 필터 바로 아래에 삽입할 독립형 풀다운 안내 창 -->
+        <div style="margin-top: 8px; margin-bottom: 15px; width: 100%; box-sizing: border-box;">
+            <!-- 클릭하는 버튼 영역 (차분한 그레이/블루 톤앤매너) -->
+            <button type="button" onclick="toggleGfrGuide(event)" style="width: 100%; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 12px; text-align: left; color: #475569; font-weight: bold; font-size: 0.85rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; outline: none; border-style: solid;">
+                <span>💡 [임상 가이드] GFR 분류 기준과 골다공증 약제 제한선 안내</span>
+                <span id="gfrGuideArrow" style="transition: transform 0.2s; color: #64748b;">▼</span>
+            </button>
+            
+            <!-- 펼쳐지는 풀다운 컨텐츠 영역 (기본 숨김) -->
+            <div id="gfrGuideContent" style="display: none; margin-top: 8px; background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px; font-size: 0.82rem; color: #334155; box-shadow: 0 1px 3px rgba(0,0,0,0.05); text-align: left;">
+                
+                <!-- 1안 설명 섹션 -->
+                <div style="margin-bottom: 12px;">
+                    <div style="font-weight: bold; color: #1e3a8a; margin-bottom: 6px; font-size: 0.85rem; border-bottom: 1px dashed #cbd5e1; padding-bottom: 3px;">📌 1안: 골다공증 약제 제한선(30~35)을 엄격히 반영하는 방식</div>
+                    <ul style="list-style: none; padding-left: 0; margin: 0;">
+                        <li style="margin: 4px 0; display: flex; align-items: flex-start;"><span style="color: #ef4444; margin-right: 6px;">🔴</span> <div><strong>중증 신기능 저하 (&lt; 30 또는 35):</strong> 주요 약제(비스포스포네이트, 테리파라타이드) 투여 금기 구간</div></li>
+                        <li style="margin: 4px 0; display: flex; align-items: flex-start;"><span style="color: #eab308; margin-right: 6px;">🟡</span> <div><strong>경도~중등도 저하 (35 ~ 59):</strong> 약제 사용은 가능하나 저칼슘혈증 등 모니터링 필요 구간</div></li>
+                        <li style="margin: 4px 0; display: flex; align-items: flex-start;"><span style="color: #22c55e; margin-right: 6px;">🟢</span> <div><strong>신장 기능 정상 (&ge; 60)</strong></div></li>
+                    </ul>
+                </div>
+                
+                <!-- 2안 설명 섹션 -->
+                <div>
+                    <div style="font-weight: bold; color: #0f766e; margin-bottom: 6px; font-size: 0.85rem; border-bottom: 1px dashed #cbd5e1; padding-bottom: 3px;">📌 2안: G3b 단계의 임상적 위험성(신장내과 의뢰 기준)을 유지하는 방식 (현재 시뮬레이터 적용 기준)</div>
+                    <ul style="list-style: none; padding-left: 0; margin: 0;">
+                        <li style="margin: 4px 0; display: flex; align-items: flex-start;"><span style="color: #ef4444; margin-right: 6px;">🔴</span> <div><strong>중증 신기능 저하 (&lt; 45):</strong> 신성 골대사 질환(CKD-MBD) 감별 진단 및 신장내과 전문의 의뢰 고려 구간</div></li>
+                        <li style="margin: 4px 0; display: flex; align-items: flex-start;"><span style="color: #eab308; margin-right: 6px;">🟡</span> <div><strong>경도~중등도 저하 (45 ~ 59):</strong> 일반적인 골다공증 약제 안전 처방 구간</div></li>
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
 
         <!-- 3번 필터 -->
         <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px;">
@@ -799,6 +831,23 @@ function calculate() {
 
     // 5. 덮어쓰기가 아닌 [기존 매칭 결과 + 신규 골형성촉진제 결과 + 상시 가이드]를 최종 결합하여 주입
     resultDiv.innerHTML = baseHtml + anabolicHtml + permanentGuideHtml;
+}
+
+// 🌟 버튼 클릭 시 풀다운 아코디언 메뉴를 부드럽게 열고 닫아주는 필수 제어 함수    
+function toggleGfrGuide(event) {
+    event.preventDefault(); // 버튼 클릭 시 실시간 VLOOKUP 연산 엔진이 재실행되거나 화면이 튀는 현상 방지
+    const content = document.getElementById('gfrGuideContent');
+    const arrow = document.getElementById('gfrGuideArrow');
+    
+    if (!content || !arrow) return;
+    
+    if (content.style.display === 'none' || content.style.display === '') {
+        content.style.display = 'block';
+        arrow.innerHTML = '▲';
+    } else {
+        content.style.display = 'none';
+        arrow.innerHTML = '▼';
+    }
 }
 
 // 🌟 버튼 클릭 시 풀다운 아코디언 메뉴를 부드럽게 열고 닫아주는 필수 제어 함수
