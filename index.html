@@ -768,57 +768,46 @@ function calculate() {
             }
         }
         
-        anabolicHtml += `</div>`; // 771행 (기존 코드 그대로 유지)
-    } // 772행 (기존 코드 그대로 유지)
+        anabolicHtml += `</div>`;
+    }
     
-    
-    
-    // 🌟 [안전한 삽입 위치: 775행 자리] 분홍색 박스와 별개로 하단에 항상 표시되는 풀다운 가이드 HTML 정의
-    let permanentGuideHtml = `
-        <div style="margin-top: 15px; width: 100%; box-sizing: border-box;">
-            <!-- 클릭하는 버튼 영역 -->
-            <button type="button" onclick="toggleAnabolicGuide(event)" style="width: 100%; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 12px; text-align: left; color: #334155; font-weight: bold; font-size: 0.85rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; outline: none; border-style: solid;">
-                <span>💡 [임상 가이드] 이베니티 · 테리파라타이드 비급여 및 금기 기준 상시 보기</span>
-                <span id="guideArrow" style="transition: transform 0.2s; color: #64748b;">▼</span>
-            </button>
-            
-            <!-- 펼쳐지는 풀다운 컨텐츠 영역 (기본 숨김) -->
-            <div id="anabolicGuideContent" style="display: none; margin-top: 8px; background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px; font-size: 0.82rem; color: #334155; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                
-                <!-- 1. 이베니티 테이블 -->
-                <div style="margin-bottom: 12px;">
-                    <div style="font-weight: bold; color: #dc2626; margin-bottom: 4px; font-size: 0.85rem;">💊 로모소주맙 (이베니티) 기준</div>
-                    <table style="width: 100%; border-collapse: collapse; text-align: left;">
-                        <tr style="background: #fff5f5;"><th style="border: 1px solid #fee2e2; padding: 5px; font-weight: bold; width: 25%;">비급여 대상</th><td style="border: 1px solid #fee2e2; padding: 5px; line-height: 1.4;">• 남성 골다공증 초고위험군 (급여 불가)<br>• 만 65세 미만 중증 골다공증 환자<br>• T-score ≤ -2.5이나 골절이 없거나 1개인 환자</td></tr>
-                        <tr><th style="border: 1px solid #fee2e2; padding: 5px; font-weight: bold; color: #ef4444;">⚠️ 절대 금기</th><td style="border: 1px solid #fee2e2; padding: 5px; line-height: 1.4; color: #b91c1c; font-weight: 600;">• 최근 1년 이내 심근경색(MI) 또는 뇌졸중(Stroke) 이력 환자<br>• 저칼슘혈증 환자 (교정 후 투여)</td></tr>
-                        <tr style="background: #fafafa;"><th style="border: 1px solid #fee2e2; padding: 5px; font-weight: bold;">치료 제한</th><td style="border: 1px solid #fee2e2; padding: 5px; line-height: 1.4;">• 평생 총 12회 (1년) 투여 후 데노수맙 등으로 순차 전환</td></tr>
-                    </table>
-                </div>
-                
-                <!-- 2. 테리파라타이드 테이블 -->
-                <div>
-                    <div style="font-weight: bold; color: #2563eb; margin-bottom: 4px; font-size: 0.85rem;">💉 테리파라타이드 (포스테오 등) 기준</div>
-                    <table style="width: 100%; border-collapse: collapse; text-align: left;">
-                        <tr style="background: #eff6ff;"><th style="border: 1px solid #dbeafe; padding: 5px; font-weight: bold; width: 25%;">비급여 대상</th><td style="border: 1px solid #dbeafe; padding: 5px; line-height: 1.4;">• 만 65세 미만 골절 동반 중증 환자<br>• 만 65세 이상 골절 1개 이하 환자<br>• 최근 1년 이내 심혈관 이력으로 이베니티 금기인 65세 미만군</td></tr>
-                        <tr><th style="border: 1px solid #dbeafe; padding: 5px; font-weight: bold; color: #ef4444;">⚠️ 절대 금기</th><td style="border: 1px solid #dbeafe; padding: 5px; line-height: 1.4; color: #b91c1c; font-weight: 600;">• 중증 신기능 저하 환자 (GFR &lt; 30)<br>• 골육종 위험군 (파제트병, 뼈 방사선 치료 이력 환자)<br>• 부갑상선기능항진증, 고칼슘혈증 환자</td></tr>
-                        <tr style="background: #fafafa;"><th style="border: 1px solid #dbeafe; padding: 5px; font-weight: bold;">치료 제한</th><td style="border: 1px solid #dbeafe; padding: 5px; line-height: 1.4;">• 일생 동안 누적 최대 24개월(2년) 초과 투여 절대 금기</td></tr>
-                    </table>
-                </div>
-                
-            </div>
-        </div>
-    `;
+    // 🌟 [안전장치 완비] 분홍색 박스와 별개로 하단에 항상 표시되는 풀다운 가이드 HTML 정의
+    let permanentGuideHtml = '<div style="margin-top: 15px; width: 100%; box-sizing: border-box;">' +
+        '<button type="button" onclick="toggleAnabolicGuide(event)" style="width: 100%; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 12px; text-align: left; color: #334155; font-weight: bold; font-size: 0.85rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; outline: none; border-style: solid;">' +
+            '<span>💡 [임상 가이드] 이베니티 · 테리파라타이드 비급여 및 금기 기준 상시 보기</span>' +
+            '<span id="guideArrow" style="transition: transform 0.2s; color: #64748b;">▼</span>' +
+        '</button>' +
+        '<div id="anabolicGuideContent" style="display: none; margin-top: 8px; background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px; font-size: 0.82rem; color: #334155; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">' +
+            '<div style="margin-bottom: 12px;">' +
+                '<div style="font-weight: bold; color: #dc2626; margin-bottom: 4px; font-size: 0.85rem;">💊 로모소주맙 (이베니티) 기준</div>' +
+                '<table style="width: 100%; border-collapse: collapse; text-align: left;">' +
+                    '<tr style="background: #fff5f5;"><th style="border: 1px solid #fee2e2; padding: 5px; font-weight: bold; width: 25%;">비급여 대상</th><td style="border: 1px solid #fee2e2; padding: 5px; line-height: 1.4;">• 남성 골다공증 초고위험군 (급여 불가)<br>• 만 65세 미만 중증 골다공증 환자<br>• T-score ≤ -2.5이나 골절이 없거나 1개인 환자</td></tr>' +
+                    '<tr><th style="border: 1px solid #fee2e2; padding: 5px; font-weight: bold; color: #ef4444;">⚠️ 절대 금기</th><td style="border: 1px solid #fee2e2; padding: 5px; line-height: 1.4; color: #b91c1c; font-weight: 600;">• 최근 1년 이내 심근경색(MI) 또는 뇌졸중(Stroke) 이력 환자<br>• 저칼슘혈증 환자 (교정 후 투여)</td></tr>' +
+                    '<tr style="background: #fafafa;"><th style="border: 1px solid #fee2e2; padding: 5px; font-weight: bold;">치료 제한</th><td style="border: 1px solid #fee2e2; padding: 5px; line-height: 1.4;">• 평생 총 12회 (1년) 투여 후 데노수맙 등으로 순차 전환</td></tr>' +
+                '</table>' +
+            '</div>' +
+            '<div>' +
+                '<div style="font-weight: bold; color: #2563eb; margin-bottom: 4px; font-size: 0.85rem;">💉 테리파라타이드 (포스테오 등) 기준</div>' +
+                '<table style="width: 100%; border-collapse: collapse; text-align: left;">' +
+                    '<tr style="background: #eff6ff;"><th style="border: 1px solid #dbeafe; padding: 5px; font-weight: bold; width: 25%;">비급여 대상</th><td style="border: 1px solid #dbeafe; padding: 5px; line-height: 1.4;">• 만 65세 미만 골절 동반 중증 환자<br>• 만 65세 이상 골절 1개 이하 환자<br>• 최근 1년 이내 심혈관 이력으로 이베니티 금기인 65세 미만군</td></tr>' +
+                    '<tr><th style="border: 1px solid #dbeafe; padding: 5px; font-weight: bold; color: #ef4444;">⚠️ 절대 금기</th><td style="border: 1px solid #dbeafe; padding: 5px; line-height: 1.4; color: #b91c1c; font-weight: 600;">• 중증 신기능 저하 환자 (GFR &lt; 30)<br>• 골육종 위험군 (파제트병, 뼈 방사선 치료 이력 환자)<br>• 부갑상선기능항진증, 고칼슘혈증 환자</td></tr>' +
+                    '<tr style="background: #fafafa;"><th style="border: 1px solid #dbeafe; padding: 5px; font-weight: bold;">치료 제한</th><td style="border: 1px solid #dbeafe; padding: 5px; line-height: 1.4;">• 일생 동안 누적 최대 24개월(2년) 초과 투여 절대 금기</td></tr>' +
+                '</table>' +
+            '</div>' +
+        '</div>' +
+    '</div>';
 
-    // 🎯 776행 수정: 세 가지 HTML 조각을 안전하게 이어 붙여서 주입
-    resultDiv.innerHTML = baseHtml + anabolicHtml + permanentGuideHtml; 
-} // 777행 (기존 코드 그대로 유지)
+    // 5. 덮어쓰기가 아닌 [기존 매칭 결과 + 신규 골형성촉진제 결과 + 상시 가이드]를 최종 결합하여 주입
+    resultDiv.innerHTML = baseHtml + anabolicHtml + permanentGuideHtml;
+}
 
-
-// 🌟 [780행 부근 빈 공간에 추가] 버튼을 클릭했을 때 아코디언을 열고 닫아주는 필수 제어 함수
+// 🌟 버튼 클릭 시 풀다운 아코디언 메뉴를 부드럽게 열고 닫아주는 필수 제어 함수
 function toggleAnabolicGuide(event) {
-    event.preventDefault(); // 클릭 시 폼이 리로드되거나 상단 라디오 버튼 연산이 꼬이는 현상 방지
+    event.preventDefault(); 
     const content = document.getElementById('anabolicGuideContent');
     const arrow = document.getElementById('guideArrow');
+    
+    if (!content || !arrow) return;
     
     if (content.style.display === 'none' || content.style.display === '') {
         content.style.display = 'block';
@@ -828,3 +817,7 @@ function toggleAnabolicGuide(event) {
         arrow.innerHTML = '▼';
     }
 }
+
+// 웹페이지 최초 로드 시 라디오 버튼 선택값 기준으로 1회 자동 실행
+calculate();
+</script>
