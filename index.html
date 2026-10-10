@@ -774,13 +774,14 @@ function calculate() {
                     if (!isGfrSevere) {
                         anabolicHtml += `
                             <p style="margin: 4px 0; font-size: 0.88rem; color: #1e293b; line-height: 1.4;">
-                                ✅ <strong>심평원 급여 승인 가능:</strong> 65세 이상 여성 및 복수 골절 조건을 모두 만족한다면
+                                ✅ <strong>심평원 급여 승인 가능:</strong> 조건을 모두 만족한다면
                             </p>
                             <p style="margin: 6px 0; font-size: 0.88rem; color: #0f766e; font-weight: 600; line-height: 1.4;">
                                 👉 [추천] 로모소주맙 (이베니티, 총 12회 즉 1년) 또는 테리파라타이드 (매일 1회 주사, 일생 동안 최대 24개월) 우선 처방 고려
                             </p>
                             <p style="margin: 4px 0 4px 14px; font-size: 0.83rem; color: #ef4444; line-height: 1.4; font-weight: 600;">
                                 • ⚠️ <strong>주의:</strong> 로모소주맙(이베니티)은 지난 1년 이내에 심근경색(MI)이나 뇌졸중(Stroke) 이력이 있는 환자에게는 투여 금기입니다.
+                                (※ 테리파라타이드의 가장 강력한 골형성 촉진 효과는 초기 6~12개월 사이에 집중되므로, 환자의 주사 피로도나 대사 지표 정체기 진입 여부에 따라 24개월 이전이라도 조기에 골흡수억제제로 전환하는 전략 역시 임상적으로 매우 우수하며 유효합니다)
                             </p>
                         `;
                     } else {
@@ -842,7 +843,7 @@ function calculate() {
             '<div style="margin-bottom: 12px;">' +
                 '<div style="font-weight: bold; color: #dc2626; margin-bottom: 4px; font-size: 0.85rem;">💊 로모소주맙 (이베니티) 기준</div>' +
                 '<table style="width: 100%; border-collapse: collapse; text-align: left;">' +
-                    '<tr style="background: #fff5f5;"><th style="border: 1px solid #fee2e2; padding: 5px; font-weight: bold; width: 25%;">비급여 대상</th><td style="border: 1px solid #fee2e2; padding: 5px; line-height: 1.4;">• 남성 골다공증 초고위험군 (급여 불가)<br>• 만 65세 미만 중증 골다공증 환자<br>• T-score ≤ -2.5이나 골절이 없거나 1개인 환자</td></tr>' +
+                    '<tr style="background: #fff5f5;"><th style="border: 1px solid #fee2e2; padding: 5px; font-weight: bold; width: 25%;">비급여 대상</th><td style="border: 1px solid #fee2e2; padding: 5px; line-height: 1.4;">• 만 65세 미만 환자 또는 남성 초고위험군 환자 (심평원 고시상 65세 이상 폐경 후 여성만 급여 인정)<br>• T-score ≤ -2.5이나 골절이 없거나 1개인 환자</td></tr>' +
                     '<tr><th style="border: 1px solid #fee2e2; padding: 5px; font-weight: bold; color: #ef4444;">⚠️ 절대 금기</th><td style="border: 1px solid #fee2e2; padding: 5px; line-height: 1.4; color: #b91c1c; font-weight: 600;">• 최근 1년 이내 심근경색(MI) 또는 뇌졸중(Stroke) 이력 환자<br>• 저칼슘혈증 환자 (교정 후 투여)</td></tr>' +
                     '<tr style="background: #fafafa;"><th style="border: 1px solid #fee2e2; padding: 5px; font-weight: bold;">치료 제한</th><td style="border: 1px solid #fee2e2; padding: 5px; line-height: 1.4;">• 평생 총 12회 (1년) 투여 후 데노수맙 등으로 순차 전환</td></tr>' +
                 '</table>' +
@@ -850,7 +851,7 @@ function calculate() {
             '<div>' +
                 '<div style="font-weight: bold; color: #2563eb; margin-bottom: 4px; font-size: 0.85rem;">💉 테리파라타이드 (포스테오 등) 기준</div>' +
                 '<table style="width: 100%; border-collapse: collapse; text-align: left;">' +
-                    '<tr style="background: #eff6ff;"><th style="border: 1px solid #dbeafe; padding: 5px; font-weight: bold; width: 25%;">비급여 대상</th><td style="border: 1px solid #dbeafe; padding: 5px; line-height: 1.4;">• 만 65세 미만 골절 동반 중증 환자<br>• 만 65세 이상 골절 1개 이하 환자<br>• 최근 1년 이내 심혈관 이력으로 이베니티 금기인 65세 미만군</td></tr>' +
+                    '<tr style="background: #eff6ff;"><th style="border: 1px solid #dbeafe; padding: 5px; font-weight: bold; width: 25%;">비급여 대상</th><td style="border: 1px solid #dbeafe; padding: 5px; line-height: 1.4;">• 기존 골다공증 치료제(BP 등) 1년 이상 투여 이력이 없는 경우<br>• 연령 불문 골다공증성 골절이 1개 이하인 환자<br></td></tr>' +
                     '<tr><th style="border: 1px solid #dbeafe; padding: 5px; font-weight: bold; color: #ef4444;">⚠️ 절대 금기</th><td style="border: 1px solid #dbeafe; padding: 5px; line-height: 1.4; color: #b91c1c; font-weight: 600;">• 중증 신기능 저하 환자 (GFR &lt; 30)<br>• 골육종 위험군 (파제트병, 뼈 방사선 치료 이력 환자)<br>• 부갑상선기능항진증, 고칼슘혈증 환자</td></tr>' +
                     '<tr style="background: #fafafa;"><th style="border: 1px solid #dbeafe; padding: 5px; font-weight: bold;">치료 제한</th><td style="border: 1px solid #dbeafe; padding: 5px; line-height: 1.4;">• 일생 동안 누적 최대 24개월(2년) 초과 투여 절대 금기</td></tr>' +
                 '</table>' +
