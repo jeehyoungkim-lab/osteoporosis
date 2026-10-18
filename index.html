@@ -560,6 +560,7 @@ function runGfrCalculatorOnly() {
 }
 
 // 🧪 보정 칼슘(Payne 공식) 계산용 함수
+// 🧪 보정 칼슘(Payne 공식) 계산용 함수 (정상 범위 표시 보완 버전)
 function runCalciumCalculatorOnly() {
     // 1. HTML 입력 필드 및 결과 출력 레이어 요소 가져오기
     const totalCaInput = document.getElementById('calcTotalCa');
@@ -589,8 +590,8 @@ function runCalciumCalculatorOnly() {
     // 소수점 첫째자리까지 반올림 (예: 8.76 -> 8.8)
     correctedCa = Math.round(correctedCa * 10) / 10;
     
-    // 4. 계산 결과 화면에 표시 및 숨겨져 있던 결과 박스 노출
-    resultVal.innerText = correctedCa + " mg/dL";
+    // 4. 계산 결과 및 정상 참고치 범위 함께 화면에 표시
+    resultVal.innerHTML = `${correctedCa} mg/dL <span style="font-size: 0.85rem; color: #64748b; font-weight: normal; margin-left: 5px;">(정상 범위: 8.5 ~ 10.5)</span>`;
     resultBox.style.display = "block";
     
     // 5. 보정 칼슘 수치에 따른 정형외과 진료 액션 플랜 분기
