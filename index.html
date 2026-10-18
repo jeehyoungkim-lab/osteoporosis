@@ -605,7 +605,7 @@ function runCalciumCalculatorOnly() {
         // 알부민 수치에 따른 메시지 분기 처리 (선생님 수정본 반영)
         if (isAlbuminLow) {
             statusBadge.innerText = "정상";
-            clinicalTip.innerHTML = "💡 <b>임상 Tip:</b> 노인에 조금 더 흔한 저알부민에 의한 효과를 교정한 실제 활성 칼슘은 정상입니다. 골다공증 주사(데노수맙/BP)를 무리 없이 <b>진행할 수 있습니다.</b>";
+            clinicalTip.innerHTML = "💡 <b>임상 Tip:</b> 노인에 조금 더 흔한 저알부민에 의한 효과를 교정한 칼슘은 정상입니다. 골다공증 주사(데노수맙/BP)를 무리 없이 <b>진행할 수 있습니다.</b>";
         } else {
             statusBadge.innerText = "정상 (보정 없음)";
             clinicalTip.innerHTML = "💡 <b>임상 Tip:</b> 알부민이 정상 이상이므로 보정 없이 총 칼슘 수치를 그대로 반영합니다. 활성 칼슘이 정상 범위 내에 있으므로 골다공증 주사(데노수맙/BP)를 무리 없이 <b>진행할 수 있습니다.</b>";
