@@ -597,7 +597,7 @@ function runCalciumCalculatorOnly() {
     // 5. 보정 칼슘 수치에 따른 정형외과 진료 액션 플랜 분기
     if (correctedCa >= 8.5 && correctedCa <= 10.5) {
         // 🟢 보정 후 정상 범위 (가성 저칼슘혈증)
-        statusBadge.innerText = "정상 (가성 저칼슘혈증)";
+        statusBadge.innerText = "정상 ";
         statusBadge.style.backgroundColor = "#dcfce7";
         statusBadge.style.color = "#15803d";
         clinicalTip.innerHTML = "💡 <b>임상 Tip:</b> 겉보기엔 Low Ca 같지만 실제 활성 칼슘은 정상입니다. 골다공증 주사(데노수맙/BP)를 무리 없이 <b>진행할 수 있습니다.</b>";
