@@ -357,6 +357,40 @@
         </div>
     </div>
 
+    <!-- 🧪 보정 칼슘(Payne 공식) 자동 계산기 위젯 -->
+<div class="card" style="margin-bottom: 15px; padding: 15px;">
+
+    <div style="font-weight: 700; margin-bottom: 10px; color: #475569; font-size: 0.95rem; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+      <span>🧪 보정 칼슘(Corrected Ca) 계산하기 (Payne 공식)</span>
+      <span style="color: #64748b; font-size: 0.8rem; font-weight: normal;">* 저알부민혈증 고령 환자 가성 저칼슘혈증 배제용</span>
+    </div>
+
+    <div class="calculator-box" style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+        <label>총 칼슘(Total Ca): 
+            <input type="number" id="calcTotalCa" class="calc-input" step="0.1" value="7.6" style="width: 70px;"> mg/dL
+        </label>
+        <label>알부민(Albumin): 
+            <input type="number" id="calcAlbumin" class="calc-input" step="0.1" value="2.5" style="width: 70px;"> g/dL
+        </label>
+        
+        <button type="button" class="calc-btn" onclick="runCalciumCalculatorOnly()" style="background-color: #0ea5e9; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+            보정 칼슘 계산하기
+        </button>
+    </div>
+
+    <!-- 📊 계산 결과 및 정형외과 진료 팁 출력 영역 -->
+    <div id="calcCaResultBox" style="margin-top: 12px; padding: 10px; border-radius: 6px; background-color: #f8fafc; border: 1px solid #e2e8f0; display: none;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
+            <span style="font-weight: 700; color: #334155; font-size: 0.95rem;">계산 결과:</span>
+            <span id="calcCaResultVal" style="font-weight: 800; color: #0284c7; font-size: 1.1rem;">- mg/dL</span>
+            <span id="calcCaStatusBadge" style="padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold;">-</span>
+        </div>
+        <div id="calcCaClinicalTip" style="font-size: 0.85rem; color: #64748b; line-height: 1.4; border-top: 1px dashed #cbd5e1; padding-top: 5px; margin-top: 5px;">
+            <!-- 임상적 가이드라인 멘트가 들어갈 자리 -->
+        </div>
+    </div>
+</div>
+
 
     <!-- 1단계 필터 카드 -->
     <body>
@@ -524,6 +558,72 @@ function runGfrCalculatorOnly() {
     
     document.getElementById('calcGfrResult').innerHTML = `➡️ 계산 결과 GFR: <span style="color:var(--warning); font-size:1.15rem;">${gfr}</span> mL/min/1.73㎡`;
 }
+
+// 🧪 보정 칼슘(Payne 공식) 계산용 함수
+function runCalciumCalculatorOnly() {
+    // 1. HTML 입력 필드 및 결과 출력 레이어 요소 가져오기
+    const totalCaInput = document.getElementById('calcTotalCa');
+    const albuminInput = document.getElementById('calcAlbumin');
+    
+    const resultBox = document.getElementById('calcCaResultBox');
+    const resultVal = document.getElementById('calcCaResultVal');
+    const statusBadge = document.getElementById('calcCaStatusBadge');
+    const clinicalTip = document.getElementById('calcCaClinicalTip');
+    
+    // 2. 예외 처리: 입력값이 비어있는지 확인
+    if (!totalCaInput || !albuminInput || totalCaInput.value.trim() === "" || albuminInput.value.trim() === "") {
+        alert("총 칼슘(Total Ca)과 알부민(Albumin) 수치를 모두 입력해 주세요.");
+        return;
+    }
+    
+    const totalCa = parseFloat(totalCaInput.value);
+    const albumin = parseFloat(albuminInput.value);
+    
+    // 3. Payne 공식 계산 로직
+    let correctedCa = totalCa;
+    if (albumin < 4.0) {
+        // 알부민이 정상(4.0)보다 낮을 때만 공식 적용
+        correctedCa = totalCa + 0.8 * (4.0 - albumin);
+    }
+    
+    // 소수점 첫째자리까지 반올림 (예: 8.76 -> 8.8)
+    correctedCa = Math.round(correctedCa * 10) / 10;
+    
+    // 4. 계산 결과 화면에 표시 및 숨겨져 있던 결과 박스 노출
+    resultVal.innerText = correctedCa + " mg/dL";
+    resultBox.style.display = "block";
+    
+    // 5. 보정 칼슘 수치에 따른 정형외과 진료 액션 플랜 분기
+    if (correctedCa >= 8.5 && correctedCa <= 10.5) {
+        // 🟢 보정 후 정상 범위 (가성 저칼슘혈증)
+        statusBadge.innerText = "정상 (가성 저칼슘혈증)";
+        statusBadge.style.backgroundColor = "#dcfce7";
+        statusBadge.style.color = "#15803d";
+        clinicalTip.innerHTML = "💡 <b>정형외과 Core Tip:</b> 겉보기엔 Low Ca 같지만 실제 활성 칼슘은 정상입니다. 골다공증 주사(데노수맙/BP)를 무리 없이 <b>진행할 수 있습니다.</b>";
+        
+    } else if (correctedCa < 8.5 && correctedCa >= 7.5) {
+        // 🟡 경증 저칼슘혈증
+        statusBadge.innerText = "주의 (경증 저칼슘혈증)";
+        statusBadge.style.backgroundColor = "#fef9c3";
+        statusBadge.style.color = "#a16207";
+        clinicalTip.innerHTML = "⚠️ <b>정형외과 Core Tip:</b> 실제 칼슘이 부족한 상태입니다. 주사 투여 전 <b>최소 2주간 경구 칼슘·비타민 D 선제 충전(Repletion)</b>을 권장합니다.";
+        
+    } else if (correctedCa < 7.5) {
+        // 🔴 중증 저칼슘혈증
+        statusBadge.innerText = "위험 (중증 저칼슘혈증)";
+        statusBadge.style.backgroundColor = "#fee2e2";
+        statusBadge.style.color = "#b91c1c";
+        clinicalTip.innerHTML = "🚨 <b>정형외과 Core Tip:</b> Tetany 및 부정맥 위험이 있는 중증 상태입니다. 골다공증 <b>주사를 즉시 보류</b>하고 내과 협진 및 적극적인 칼슘 교정이 필요합니다.";
+        
+    } else {
+        // 🔵 고칼슘혈증
+        statusBadge.innerText = "고칼슘혈증 위험";
+        statusBadge.style.backgroundColor = "#e0f2fe";
+        statusBadge.style.color = "#0369a1";
+        clinicalTip.innerHTML = "🔎 <b>정형외과 Core Tip:</b> 고칼슘혈증 상태입니다. 다른 골대사 질환이나 악성 종양 가능성 검토가 필요합니다.";
+    }
+}
+
 // 골절 병력을 표시할지 말지 결정
 function toggleFractureOption() {
     const tscore = document.querySelector('input[name="tscore"]:checked').value;
