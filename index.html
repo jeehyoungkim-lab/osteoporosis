@@ -560,7 +560,6 @@ function runGfrCalculatorOnly() {
 }
 
 // 🧪 보정 칼슘(Payne 공식) 계산용 함수
-// 🧪 보정 칼슘(Payne 공식) 계산용 함수 (정상 범위 표시 보완 버전)
 function runCalciumCalculatorOnly() {
     // 1. HTML 입력 필드 및 결과 출력 레이어 요소 가져오기
     const totalCaInput = document.getElementById('calcTotalCa');
@@ -582,9 +581,12 @@ function runCalciumCalculatorOnly() {
     
     // 3. Payne 공식 계산 로직
     let correctedCa = totalCa;
+    let isAlbuminLow = false; // 저알부민 여부 체크 플래그
+    
     if (albumin < 4.0) {
         // 알부민이 정상(4.0)보다 낮을 때만 공식 적용
         correctedCa = totalCa + 0.8 * (4.0 - albumin);
+        isAlbuminLow = true;
     }
     
     // 소수점 첫째자리까지 반올림 (예: 8.76 -> 8.8)
@@ -596,24 +598,41 @@ function runCalciumCalculatorOnly() {
     
     // 5. 보정 칼슘 수치에 따른 정형외과 진료 액션 플랜 분기
     if (correctedCa >= 8.5 && correctedCa <= 10.5) {
-        // 🟢 보정 후 정상 범위 (가성 저칼슘혈증)
-        statusBadge.innerText = "정상 ";
+        // 🟢 보정 후 정상 범위
         statusBadge.style.backgroundColor = "#dcfce7";
         statusBadge.style.color = "#15803d";
-        clinicalTip.innerHTML = "💡 <b>임상 Tip:</b> 노인에 조금 더 흔한 저알부민에 의한 효과를 교정한 실제 활성 칼슘은 정상입니다. 골다공증 주사(데노수맙/BP)를 무리 없이 <b>진행할 수 있습니다.</b>";
+        
+        // 알부민 수치에 따른 메시지 분기 처리 (선생님 수정본 반영)
+        if (isAlbuminLow) {
+            statusBadge.innerText = "정상";
+            clinicalTip.innerHTML = "💡 <b>임상 Tip:</b> 노인에 조금 더 흔한 저알부민에 의한 효과를 교정한 실제 활성 칼슘은 정상입니다. 골다공증 주사(데노수맙/BP)를 무리 없이 <b>진행할 수 있습니다.</b>";
+        } else {
+            statusBadge.innerText = "정상 (보정 없음)";
+            clinicalTip.innerHTML = "💡 <b>임상 Tip:</b> 알부민이 정상 이상이므로 보정 없이 총 칼슘 수치를 그대로 반영합니다. 활성 칼슘이 정상 범위 내에 있으므로 골다공증 주사(데노수맙/BP)를 무리 없이 <b>진행할 수 있습니다.</b>";
+        }
         
     } else if (correctedCa < 8.5 && correctedCa >= 7.5) {
         // 🟡 경증 저칼슘혈증
-        statusBadge.innerText = "주의 (경증 저칼슘혈증)";
         statusBadge.style.backgroundColor = "#fef9c3";
         statusBadge.style.color = "#a16207";
+        
+        if (isAlbuminLow) {
+            statusBadge.innerText = "주의 (경증 저칼슘혈증)";
+        } else {
+            statusBadge.innerText = "주의 (경증 저칼슘혈증 / 보정 없음)";
+        }
         clinicalTip.innerHTML = "⚠️ <b>임상 Tip:</b> 실제 칼슘이 부족한 상태입니다. 주사 투여 전 <b>최소 2주간 경구 칼슘·비타민 D 선제 충전</b>을 권장합니다.";
         
     } else if (correctedCa < 7.5) {
         // 🔴 중증 저칼슘혈증
-        statusBadge.innerText = "위험 (중증 저칼슘혈증)";
         statusBadge.style.backgroundColor = "#fee2e2";
         statusBadge.style.color = "#b91c1c";
+        
+        if (isAlbuminLow) {
+            statusBadge.innerText = "위험 (중증 저칼슘혈증)";
+        } else {
+            statusBadge.innerText = "위험 (중증 저칼슘혈증 / 보정 없음)";
+        }
         clinicalTip.innerHTML = "🚨 <b>임상 Tip:</b> Tetany 및 부정맥 위험이 있는 중증 상태입니다. 골다공증 <b>주사를 즉시 보류</b>하고 내과 협진 및 적극적인 칼슘 교정이 필요합니다.";
         
     } else {
@@ -624,6 +643,7 @@ function runCalciumCalculatorOnly() {
         clinicalTip.innerHTML = "🔎 <b>임상 Tip:</b> 고칼슘혈증 상태입니다. 다른 골대사 질환이나 악성 종양 가능성 검토가 필요합니다.";
     }
 }
+
 
 // 골절 병력을 표시할지 말지 결정
 function toggleFractureOption() {
