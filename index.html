@@ -719,20 +719,24 @@ const prescriptionMatrix = [
     },
     { cap: 'low', gfr: 'normal', tscore: 'osteopenia', btm: 'ANY', bg: '#fffbeb', border: '#fef3c7', html: `
         <h4 style="color:#d97706; margin-top:0;">⚠️ 저칼슘 주의 (신기능 정상 / 골감소증 경계)</h4>
-        <p><strong>지침:</strong> 치료 시급성이 낮습니다. 데노수맙 투여를 수 주간 보류하고, 활성형 비타민D 처방을 통해 혈중 칼슘을 완전히 정상화한 후 투여하는 것을 권장합니다.</p>`
+        <p><strong>임상 방침:</strong> 현재 골감소증 단계로 골다공증 주사제(데노수맙 등)의 치료 시급성이 낮으며 급여 기준 충족 여부 확인이 필요합니다.</p>
+        <p style="margin-bottom:0;"><strong>대처 지침:</strong> 즉각적인 주사 치료에 앞서, <u>일반 칼슘 및 비타민D 복합 보충제</u>를 수 주간 선제적으로 투여하여 혈중 칼슘 농도를 완전히 정상화하는 관리를 우선 권장합니다.</p>`
     },
     { cap: 'low', gfr: 'low', tscore: 'severe', btm: 'ANY', bg: '#fffbeb', border: '#fef3c7', html: `
         <h4 style="color:#d97706; margin-top:0;">⚠️ 저칼슘 주의 (신기능 경도 저하 / 중증 골다공증)</h4>
-        <p><strong>지침:</strong> 일반 환자보다 저칼슘혈증 위험이 한층 높습니다. 활성형 비타민D+칼슘제 사전 교정을 강력히 권장하며, 메인 치료제 진입 시 2주 내 리체크가 필수적입니다.</p>`
-    },
+        <p><strong>임상 판단:</strong> 중증 골다공증으로 치료의 시급성이 높으나, 신기능 경도 저하(CKD 3a) 및 저칼슘 경계가 동반되어 있어 일반 환자보다 저칼슘혈증 발생 위험이 다소 증가할 수 있습니다.</p>
+        <p style="margin-bottom:0;"><strong>대처 지침:</strong> 메인 주사제 투여 전후로 <u>칼슘 및 비타민D 보충제(필요 시 활성형 고려)</u>를 선제적으로 충분히 투여해 주시고, 안전한 치료 유지를 위해 주사 투여 후 <strong>2주 이내에 칼슘 수치 리체크(추적 관찰)</strong>를 권장합니다.</p>`
+    }
     { cap: 'low', gfr: 'low', tscore: 'osteoporosis', btm: 'ANY', bg: '#fffbeb', border: '#fef3c7', html: `
         <h4 style="color:#d97706; margin-top:0;">⚠️ 저칼슘 주의 (신기능 경도 저하 / 골다공증 확진)</h4>
-        <p><strong>지침:</strong> 신기능 저하가 동반되어 초기 칼슘 드롭 위험이 우려됩니다. 활성형 비타민D 단독 요법 및 극소량의 칼슘 보충 하에 메인 약제 처방을 신중히 진행하십시오.</p>`
-    },
+        <p><strong>임상 판단:</strong> 골다공증 확진 상태로 주사제 치료가 필요하나, 신기능 경도 저하(CKD 3a)로 인해 주사 초기 혈중 칼슘 수치가 일시적으로 하락(드롭)할 위험이 우려됩니다.</p>
+        <p style="margin-bottom:0;"><strong>대처 지침:</strong> 칼슘 부족을 막기 위해 <u>표준 용량의 칼슘 및 비타민D 복합제</u>를 선제적으로 충분히 투여하여 칼슘 베이스라인을 안정시키십시오. 처방 후 초기 안정성 확인을 위해 <strong>2~4주 내 추적 혈액검사</strong>를 권장합니다.</p>`
+    }
     { cap: 'low', gfr: 'low', tscore: 'osteopenia', btm: 'ANY', bg: '#fffbeb', border: '#fef3c7', html: `
         <h4 style="color:#d97706; margin-top:0;">⚠️ 저칼슘 주의 (신기능 경도 저하 / 골감소증 경계)</h4>
-        <p><strong>지침:</strong> 메인 약제를 보류합니다. 골밀도 시급성이 낮으므로 데노수맙/BP 치료 진입을 늦추고, 활성형 비타민D 처방으로 혈중 칼슘 정상화에 최우선 집중하십시오.</p>`
-    },
+        <p><strong>임상 판단:</strong> 현재 골감소증 단계로 골다공증 주사제(데노수맙/BP 등)의 치료 시급성이 낮으며, 초기 진입 시 건강보험 급여 기준 충족 여부를 먼저 재확인해야 합니다.</p>
+        <p style="margin-bottom:0;"><strong>대처 지침:</strong> 신기능 경도 저하와 저칼슘 경계가 동반되어 있으므로, 무리한 주사 치료 진입보다는 <u>일반 칼슘 및 비타민D 복합 보충제</u> 섭취를 통해 혈중 칼슘 농도와 기초 대사 균형을 완만하게 개선하는 것을 우선 권장합니다.</p>`
+    }
     { cap: 'low', gfr: 'severe_low', tscore: 'ANY', btm: 'ANY', bg: '#fffbeb', border: '#fef3c7', html: `
         <h4 style="color:#d97706; margin-top:0;">🚨 극고위험군 매칭 (중증 신기능 저하 + 저칼슘혈증) 신장내과 협진 필수</h4>
         <p><strong>임상적 의미:</strong> 비스포스포네이트 절대 금기 단계입니다. 데노수맙 주사 직후 저칼슘혈증 쇼크 위험이 극도로 높습니다.</p>
