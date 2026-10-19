@@ -376,7 +376,7 @@
             <input type="number" id="calcTotalCa" class="calc-input" step="0.1" value="7.6" style="width: 70px;"> mg/dL
         </label>
         <label>알부민(Albumin): 
-            <input type="number" id="calcAlbumin" class="calc-input" step="0.1" value="2.5" style="width: 70px;"> g/dL
+            <input type="number" id="calcAlbumin" class="calc-input" step="0.1" value="2.7" style="width: 70px;"> g/dL
         </label>
         
         <button type="button" class="calc-btn" onclick="runCalciumCalculatorOnly()" style="background-color: #0ea5e9; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold;">
@@ -603,7 +603,21 @@ function runCalciumCalculatorOnly() {
     resultBox.style.display = "block";
     
     // 5. 보정 칼슘 수치에 따른 정형외과 진료 액션 플랜 분기
-    if (correctedCa >= 8.5 && correctedCa <= 10.5) {
+       if (albumin <= 2.5) { 
+        // 경고 스타일 지정 (주황색 또는 붉은색 계열 배지)
+        statusBadge.style.backgroundColor = "#fffaf0";
+        statusBadge.style.color = "#dd6b20";
+        statusBadge.innerText = "위험 (중증 저알부민혈증)";
+        
+        // 임상 팁에 즉시 내과 전원(Refer) 문구 출력
+        clinicalTip.innerHTML = "⚠️ <b>임상 Tip:</b> 혈청 알부민이 <b>2.5 g/dL 이하</b>인 중증 상태입니다. " +
+                                "골다공증 약제 부작용 위험이 급증할 뿐만 아니라 신증후군, 간경변, 악성 종양 등 " +
+                                "심각한 기저 질환 가능성이 높으므로 <b>골다공증 주사 투여를 보류하고 즉시 내과(신장/소화기내과 등)로 의뢰</b>하십시오. " +
+                                "또한 과다 보정 오차가 있을 수 있으므로 정확한 판정 필요 시 <b>이온화 칼슘(Ionized Ca) 검사</b>를 직접 시행하십시오.";
+
+        } 
+        // 💡 기존의 보정 칼슘 분기들을 else if 로 묶어 최우선 분기가 아닐 때만 작동하도록 격리
+        else  if (correctedCa >= 8.5 && correctedCa <= 10.5) {
         // 🟢 보정 후 정상 범위
         statusBadge.style.backgroundColor = "#dcfce7";
         statusBadge.style.color = "#15803d";
@@ -611,7 +625,7 @@ function runCalciumCalculatorOnly() {
         // 알부민 수치에 따른 메시지 분기 처리 (선생님 수정본 반영)
         if (isAlbuminLow) {
             statusBadge.innerText = "정상";
-            clinicalTip.innerHTML = "💡 <b>임상 Tip:</b> 노인에 조금 더 흔한 저알부민에 의한 효과를 교정한 칼슘은 정상입니다. 골다공증 주사(데노수맙/BP)를 무리 없이 진행할 수 있습니다. 고령 및 영양 불량 환자는 저알부민혈증으로 인한 가성 저칼슘혈증의 빈도가 높으므로 반드시 보정 칼슘 수치를 확인하십시오. 단, 중증 저알부민혈증 환자에서는 보정 공식의 오차가 발생할 수 있으므로, 정확한 판정이 필요할 경우 이온화 칼슘(Ionized Ca) 검사를 직접 시행하는 것을 권장합니다. ";
+            clinicalTip.innerHTML = "💡 <b>임상 Tip:</b> 노인에 더 흔한 저알부민에 의한 효과를 교정한 칼슘은 정상입니다. 골다공증 주사(데노수맙/BP)를 무리 없이 진행할 수 있습니다. 고령 및 영양 불량 환자는 저알부민혈증으로 인한 가성 저칼슘혈증의 빈도가 높으므로 반드시 보정 칼슘 수치를 확인하십시오. 단, 중증 저알부민혈증 환자(2.5이후)에서는 보정 공식의 오차가 발생할 수 있으므로, 정확한 판정이 필요할 경우 이온화 칼슘(Ionized Ca) 검사를 직접 시행하는 것을 권장합니다. ";
         } else {
             statusBadge.innerText = "정상 (보정 없음)";
             clinicalTip.innerHTML = "💡 <b>임상 Tip:</b> 알부민이 정상 이상이므로 보정 없이 총 칼슘 수치를 그대로 반영합니다. 활성 칼슘이 정상 범위 내에 있으므로 골다공증 주사(데노수맙/BP)를 무리 없이 <b>진행할 수 있습니다.</b>";
