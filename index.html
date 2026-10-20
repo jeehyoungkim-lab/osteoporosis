@@ -52,7 +52,7 @@
             padding: 20px;
         }
         .container {
-            max-width: 1400px; /* 기존 900px에서 확장 */
+            max-width: 95%; /* ◀ 화면 해상도가 아무리 커져도 전체 너비의 95%를 활용 */
             margin: 0 auto;
         }
         header {
@@ -175,10 +175,11 @@
         }
         /* 보험 기준 가이드 전체 컨테이너 */
         .insurance-guide-container {
-            max-width: 1000px; /* 시뮬레이터 박스 너비에 맞춰 조절하세요 */
+            max-width: 100%; /* ◀ 기존 1000px 제한을 풀고 부모 상자 너비에 100% 맞춤 */
             margin: 15px auto 25px auto;
             font-family: inherit;
         }
+
         
         /* 풀다운 버튼 스타일 */
         details {
