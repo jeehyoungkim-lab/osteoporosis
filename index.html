@@ -833,9 +833,9 @@ function calculate() {
             label.classList.remove('selected');
         }
     });
-    
-    // 2. 현재 화면에서 선택된 4가지 지표값 획득
+        // 2. 현재 화면에서 선택된 5가지 지표값 획득 (비타민 D 추가됨)
     const currentCap = document.querySelector('input[name="cap"]:checked').value;
+    const currentVitd = document.querySelector('input[name="vitd"]:checked').value; // 🆕 새로 추가
     const currentGfr = document.querySelector('input[name="gfr"]:checked').value;
     const currentTscore = document.querySelector('input[name="tscore"]:checked').value;
     const currentBtm = document.querySelector('input[name="btm"]:checked').value;
@@ -846,27 +846,71 @@ function calculate() {
     // 🎯 3. [VLOOKUP 매칭 로직] 엑셀 데이터 배열에서 일치하는 행 찾기
     const matchedRow = prescriptionMatrix.find(row => {
         const capMatch = (row.cap === 'ANY' || row.cap === currentCap);
+        const vitdMatch = (row.vitd === 'ANY' || row.vitd === currentVitd); // 🆕 새로 추가
         const gfrMatch = (row.gfr === 'ANY' || row.gfr === currentGfr);
         const tscoreMatch = (row.tscore === 'ANY' || row.tscore === currentTscore);
         const btmMatch = (row.btm === 'ANY' || row.btm === currentBtm);
         
-        return capMatch && gfrMatch && tscoreMatch && btmMatch;
+        // 5가지 매칭 조건이 모두 true여야 엑셀 행을 반환합니다.
+        return capMatch && vitdMatch && gfrMatch && tscoreMatch && btmMatch; // 🆕 vitdMatch 추가됨
     });
-    
+
     // 기본 결과 HTML을 담아둘 변수 선언
     let baseHtml = "";
     
-    // 4. 찾은 행의 데이터를 기반으로 기본 결과 UI 채우기 (스타일 결정)
+    // 🎯 4. 찾은 행의 데이터를 기반으로 기본 결과 UI 채우기 (스타일 결정)
+    let baseHtml = ""; // HTML을 담을 변수 선언
+
     if (matchedRow) {
         resultDiv.style.backgroundColor = matchedRow.bg;
         resultDiv.style.border = `1px solid ${matchedRow.border}`;
-        baseHtml = matchedRow.html; // 기존의 가이드라인 HTML을 임시 저장
+        
+        // 1) 기존에 정의해두신 정교한 가이드라인 HTML을 먼저 가져옵니다.
+        baseHtml = matchedRow.html; 
+        
+        // 2) 🆕 [비타민 D 조건에 따른 가이드라인 박스 동적 추가]
+        // 기존 HTML 디자인 구조를 해치지 않도록 하단에 독립된 알림 박스 형태로 덧붙입니다.
+        let vitdHtml = "";
+        
+        if (currentVitd === 'severe') {
+            vitdHtml = `
+                <div style="margin-top: 15px; padding: 12px; background: #fff; border-left: 5px solid #ef4444; border-radius: 4px; font-size: 0.95rem;">
+                    <h5 style="margin-top: 0; margin-bottom: 6px; color: #b91c1c; font-size: 1rem;">⚠️ Vit.D 중증 결핍 경고 (&lt; 12 ng/mL)</h5>
+                    <p style="margin: 0; color: #334155; line-height: 1.4;">
+                        현재 비타민 D 수치가 극히 낮아 강력한 골흡수 억제제(프롤리아 등) 투여 시 <strong>중증 저칼슘혈증(테타니 등)</strong> 리스크가 매우 높습니다. 당일 고용량 비타민 D 주사(예: 콜레calciferol 20만~30만 IU)를 선행하거나 처방 일정을 조율하십시오.
+                    </p>
+                </div>`;
+        } else if (currentVitd === 'deficient') {
+            vitdHtml = `
+                <div style="margin-top: 15px; padding: 12px; background: #fff; border-left: 5px solid #eab308; border-radius: 4px; font-size: 0.95rem;">
+                    <h5 style="margin-top: 0; margin-bottom: 6px; color: #854d0e; font-size: 1rem;">💡 Vit.D 부족/불충분 관리 (12~29 ng/mL)</h5>
+                    <p style="margin: 0; color: #334155; line-height: 1.4;">
+                        기저 수치가 불충분하므로 메인 약제(BP/프롤리아) 투여와 동시에 <strong>칼슘/비타민D 복합제 일상 복용(매일 800~1000 IU 이상)</strong> 처방을 반드시 병행하십시오.
+                    </p>
+                </div>`;
+        } else if (currentVitd === 'normal') {
+            vitdHtml = `
+                <div style="margin-top: 15px; padding: 12px; background: #fff; border-left: 5px solid var(--success); border-radius: 4px; font-size: 0.95rem;">
+                    <h5 style="margin-top: 0; margin-bottom: 6px; color: #166534; font-size: 1rem;">✅ Vit.D 충분/정상 상태 (&ge; 30 ng/mL)</h5>
+                    <p style="margin: 0; color: #334155; line-height: 1.4;">
+                        기저 수치가 안전 범위에 있어 메인 약제의 즉시 투여가 가능합니다. 치료 효과 유지를 위해 일반적인 칼슘/비타민 D 복합제를 동반 처방하십시오.
+                    </p>
+                </div>`;
+        }
+        
+        // 기존 HTML 데이터 뒤에 비타민 D 안내 박스를 결합합니다.
+        baseHtml += vitdHtml;
+
     } else {
         // 혹시나 일치하는 행을 찾지 못했을 때를 대비한 백업 예외 안전장치
         resultDiv.style.backgroundColor = '#f8fafc';
         resultDiv.style.border = '1px solid #e2e8f0';
         baseHtml = '<h4 style="color:#64748b; margin-top:0;">ℹ️ 세부 조합 조건에 맞는 표준 가이드라인을 매칭 중입니다.</h4>';
     }
+
+    // 5. 최종 결합된 내용을 화면에 출력
+    resultDiv.innerHTML = baseHtml;
+
 
     // -------------------------------------------------------------------------
     // 🔥 [신규 추가] 골형성촉진제(로모소주맙/테리파라타이드) 독립 연산 및 덧붙이기(Append)
