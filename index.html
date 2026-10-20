@@ -850,11 +850,11 @@ function calculate() {
     // 🆕 1번 칼슘 수치 실시간 단일 가이드 주입 로직
     const calciumBriefDiv = document.getElementById('calcium-brief-msg');
     if (currentCap === 'high') {
-        calciumBriefDiv.innerHTML = '🛑 <strong style="color:#dc2626;">위험:</strong> 고칼슘혈증 상태. 활성형 D 및 칼슘제 즉시 중단 필요.신장 내과 의뢰';
+        calciumBriefDiv.innerHTML = '🛑 <strong style="color:#dc2626;">위험:</strong> 고칼슘혈증 상태. 비타민 D 및 칼슘제 즉시 중단. 일차성 부갑상선 기능 항진증, 악성 종양 가능성. 신장 내과 의뢰';
     } else if (currentCap === 'normal') {
         calciumBriefDiv.innerHTML = '✅ <strong style="color:#16a34a;">정상:</strong> 정상 범위 내 관리. 통상적인 용량 처방 유지 가능.';
     } else if (currentCap === 'low') {
-        calciumBriefDiv.innerHTML = '⚠️ <strong style="color:#ea580c;">주의:</strong> 저칼슘혈증 리스크. 약제 투여 전 1~2주 선제 교정 권장.';
+        calciumBriefDiv.innerHTML = '⚠️ <strong style="color:#ea580c;">주의:</strong> 저칼슘혈증 증상 살피기. 자각하지 못하는 경우 많으나 BP/프롤리아 투여 전 1~2주 교정 후 리체크.';
     }
 
     // 🆕 2번 비타민 D 수치 실시간 단일 가이드 주입 로직
@@ -920,7 +920,7 @@ function calculate() {
         } else if (currentVitd === 'normal') {
             vitdHtml = `
                 <div style="margin-top: 15px; padding: 12px; background: #fff; border-left: 5px solid var(--success); border-radius: 4px; font-size: 0.95rem;">
-                    <h5 style="margin-top: 0; margin-bottom: 6px; color: #166534; font-size: 1rem;">✅ Vit.D 충분/정상 상태 (&ge; 30 ng/mL)</h5>
+                    <h5 style="margin-top: 0; margin-bottom: 6px; color: #166534; font-size: 1rem;">✅ Vit.D 충분/정상 상태 (30~100 ng/mL)</h5>
                     <p style="margin: 0; color: #334155; line-height: 1.4;">
                         기저 수치가 안전 범위에 있습니다. 치료 효과 유지를 위해 일반적인 칼슘/비타민 D 복합제를 동반 처방하십시오.
                     </p>
