@@ -844,16 +844,20 @@ function calculate() {
     resultDiv.style.display = 'block';
     
     // 🎯 3. [VLOOKUP 매칭 로직] 엑셀 데이터 배열에서 일치하는 행 찾기
+    // 🎯 이 블록을 복사해서 위의 자리에 그대로 붙여넣으세요!
     const matchedRow = prescriptionMatrix.find(row => {
         const capMatch = (row.cap === 'ANY' || row.cap === currentCap);
-        const vitdMatch = (!row.vitd || row.vitd === 'ANY' || row.vitd === currentVitd);// 🆕 새로 추가
+        
+        // row.vitd 속성이 없어도 안전하게 통과시키는 마법의 한 줄
+        const vitdMatch = (!row.vitd || row.vitd === 'ANY' || row.vitd === currentVitd);
+        
         const gfrMatch = (row.gfr === 'ANY' || row.gfr === currentGfr);
         const tscoreMatch = (row.tscore === 'ANY' || row.tscore === currentTscore);
         const btmMatch = (row.btm === 'ANY' || row.btm === currentBtm);
         
-        // 5가지 매칭 조건이 모두 true여야 엑셀 행을 반환합니다.
-        return capMatch && vitdMatch && gfrMatch && tscoreMatch && btmMatch; // 🆕 vitdMatch 추가됨
+        return capMatch && vitdMatch && gfrMatch && tscoreMatch && btmMatch; // 5개 모두 결합 완료
     });
+
 
     // 🎯 4. 찾은 행의 데이터를 기반으로 기본 결과 UI 채우기 (스타일 결정)
     let baseHtml = ""; // HTML을 담을 변수 선언
