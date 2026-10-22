@@ -703,8 +703,8 @@ function toggleFractureOption() {
 // 📊 [엑셀 데이터베이스 저장] 모든 조건 조합과 스타일을 행별로 정의
 const prescriptionMatrix = [
     { cap: 'high', gfr: 'ANY', tscore: 'ANY', btm: 'ANY', bg: '#fef2f2', border: '#fee2e2', html: `
-        <h4 style="color:var(--danger); margin-top:0;">🚨 고칼슘/고인산혈증 경보 - 신장내과 협진 필수</h4>
-        <p><strong>임상적 의미:</strong> 혈청 내 칼슘/인 농도가 높아 안전상 즉각적인 처방 가감이 필요합니다.</p>
+        <h4 style="color:var(--danger); margin-top:0;">🚨 고칼슘혈증 경보 - 신장내과 협진 필수</h4>
+        <p><strong>임상적 의미:</strong> 혈청 내 칼슘 농도가 높아 안전상 즉각적인 처방 가감이 필요합니다. 원인 질환에 대한 추가 검사가 요구됩니다.</p>
         <div style="background:#fff; padding:15px; border-left:5px solid var(--danger); border-radius:4px;">
             <h5 style="margin-top:0; margin-bottom:10px; font-size:1rem;">🛑 처방 조정 및 대처 지침</h5>
             <ul>
@@ -860,7 +860,7 @@ function calculate() {
     // 🆕 1번 칼슘 수치 실시간 단일 가이드 주입 로직
     const calciumBriefDiv = document.getElementById('calcium-brief-msg');
     if (currentCap === 'high') {
-        calciumBriefDiv.innerHTML = '🛑 <strong style="color:#dc2626;">위험:</strong> 고칼슘혈증 상태. 비타민 D 및 칼슘제 즉시 중단. 일차성 부갑상선 기능 항진증, 악성 종양 가능성. 신장 내과 의뢰';
+        calciumBriefDiv.innerHTML = '🛑 <strong style="color:#dc2626;">위험:</strong> 고칼슘혈증 상태. 비타민 D 및 칼슘제 즉시 중단. 일차성 부갑상선 기능 항진증, 악성 종양 가능성. 신장/내분비 내과 의뢰';
     } else if (currentCap === 'normal') {
         calciumBriefDiv.innerHTML = '✅ <strong style="color:#16a34a;">정상:</strong> 정상 범위 내 관리. 통상적인 용량 처방 유지 가능.';
     } else if (currentCap === 'low') {
