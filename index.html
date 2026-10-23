@@ -489,27 +489,30 @@
 
 
         <!-- 3번 필터 -->
-        <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px;">
+        <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; position: relative;">
             <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 8px; color: #334155; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px;">4. 골밀도 (T-score)</div>
-            <div class="radio-options">
-                <label class="radio-label"><input type="radio" name="tscore" value="severe" onchange="toggleFractureOption(); calculate();"> <div><strong>중증 (≤ -3.0)</strong></div></label>
-                <label class="radio-label selected"><input type="radio" name="tscore" value="osteoporosis" checked onchange="toggleFractureOption(); calculate();"> <div><strong>확진 (≤ -2.5)</strong></div></label>
-                <label class="radio-label"><input type="radio" name="tscore" value="osteopenia" onchange="toggleFractureOption(); calculate();"> <div><strong>골감소증 (&gt; -2.5)</strong></div></label>
-                
+            <div class="radio-options" style="margin-bottom: 12px;">
+                <!-- 💡 라디오 버튼 작동을 방해하던 toggleFractureOption()을 제거하고 calculate()만 남겼습니다 -->
+                <label class="radio-label"><input type="radio" name="tscore" value="severe" onchange="calculate();"> <div><strong>중증 (≤ -3.0)</strong></div></label>
+                <label class="radio-label selected"><input type="radio" name="tscore" value="osteoporosis" checked onchange="calculate();"> <div><strong>확진 (≤ -2.5)</strong></div></label>
+                <label class="radio-label"><input type="radio" name="tscore" value="osteopenia" onchange="calculate();"> <div><strong>골감소증 (&gt; -2.5)</strong></div></label>
             </div>
-         </div>   
-            <!-- 골절 여부 동적 체크박스 (평소에는 보이되, 골감소증 선택 시 스크립트로 숨김 처리 가능) -->
             
-            <label style="display: flex; align-items: center; font-size: 0.88rem; color: #ef4444; font-weight: 600; cursor: pointer;">
-                <input type="checkbox" id="hasMultipleFractures" onchange="calculate()" style="margin-right: 6px; width: 16px; height: 16px;">
+            <!-- 💡 우측으로 삐져나가지 않도록 하단으로 확실히 격리하고 점선을 추가한 상시 노출 영역입니다 -->
+            <div style="clear: both; display: block; width: 100%; margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e2e8f0; text-align: left;">
+                <label style="display: flex; align-items: flex-start; font-size: 0.88rem; color: #ef4444; font-weight: 600; cursor: pointer; width: 100%;">
+                    <input type="checkbox" id="hasMultipleFractures" onchange="calculate()" style="margin-right: 6px; margin-top: 3px; width: 16px; height: 16px; flex-shrink: 0;">
                     <div>
                         💥 골절 등 초고위험 기준 확인요
                         <div style="font-size: 0.78rem; color: #b91c1c; font-weight: normal; margin-top: 3px; line-height: 1.3;">
                             • <strong>[급여 인정]:</strong> 대한민국 심평원 급여 기준을 동시에 만족한다면 (이베니티, 테리파라타이드 투여)<br>
-                            • <strong>[비급여 전환]:</strong> 국제 가이드라인 및 식약처 허가 기준에 만족하나 심평원 기준에 만족하지 못하면)
+                            • <strong>[비급여 전환]:</strong> 국제 가이드라인 및 식약처 허가 기준에 만족하나 심평원 기준에 만족하지 못하면
                         </div>
                     </div>
-            </label>
+                </label>
+            </div>
+        </div>
+
            
         
 
