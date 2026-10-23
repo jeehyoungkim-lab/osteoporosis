@@ -43,18 +43,28 @@
         .calc-btn:hover { background: #1d4ed8; }
 
         }
+     /* 1. 배경색 변수를 연한 회색으로 새로 정의하기 위해 이 부분을 맨 위에 추가합니다 */
+        :root {
+            --bg: #f8fafc; 
+            --text: #1e293b;
+        }
+        
+        /* 2. 기존 body 코드를 이것으로 대체합니다 */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: var(--bg);
+            background-color: var(--bg); /* 이제 위에서 지정한 연한 회색이 적용됩니다 */
             color: var(--text);
             line-height: 1.6;
             margin: 0;
             padding: 20px;
         }
+        
+        /* 3. 기존 container 코드를 이것으로 대체합니다 */
         .container {
-            max-width: 95%; /* ◀ 화면 해상도가 아무리 커져도 전체 너비의 95%를 활용 */
+            max-width: 95%; 
             margin: 0 auto;
         }
+
         header {
             text-align: center;
             margin-bottom: 30px;
