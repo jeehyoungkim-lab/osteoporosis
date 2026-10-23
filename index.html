@@ -1118,6 +1118,80 @@ function calculate() {
     
     // 🌟 [안전장치 완비] 분홍색 박스와 별개로 하단에 항상 표시되는 풀다운 가이드 HTML 정의
     let permanentGuideHtml = '<div style="margin-top: 15px; width: 100%; box-sizing: border-box;">' +
+
+    
+    // --- [새로 추가되는 골절 초고위험군 진단기준 및 급여 비교 풀다운] 시작 ---
+    '<div style="margin-bottom: 8px; border: 1px solid #e2e8f0; border-radius: 6px; background-color: #ffffff; overflow: hidden; font-family: inherit; text-align: left;">' +
+        '<details class="group" style="cursor: pointer;">' +
+            '<summary style="display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background-color: #f8fafc; list-style: none;">' +
+                '<div style="display: flex; align-items: center; gap: 6px; font-size: 0.88rem; font-weight: 600; color: #1e293b;">' +
+                    '<span style="font-size: 1rem;">🔍</span> [글로벌 가이드라인 vs 심평원] 골절 초고위험군 진단기준 상세 비교' +
+                '</div>' +
+                '<svg class="group-open:rotate-180 transition-transform duration-200" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
+                    '<polyline points="6 9 12 15 18 9"></polyline>' +
+                '</svg>' +
+            '</summary>' +
+            '<div style="padding: 12px; background-color: #ffffff; border-top: 1px solid #e2e8f0;">' +
+                '<table style="width: 100%; border-collapse: collapse; font-size: 0.83rem; line-height: 1.5; color: #334155; text-align: left;">' +
+                    '<thead>' +
+                        '<tr style="background-color: #f1f5f9; border-bottom: 2px solid #cbd5e1;">' +
+                            '<th style="padding: 8px 10px; font-weight: 600; color: #0f172a; width: 50%; border-right: 1px solid #e2e8f0;">🌐 국제 임상 가이드라인 (AACE/ACE 등)</th>' +
+                            '<th style="padding: 8px 10px; font-weight: 600; color: #b91c1c; width: 50%;">🇰🇷 국내 심평원 급여 기준 (이베니티)</th>' +
+                        '</tr>' +
+                    '</thead>' +
+                    '<tbody>' +
+                        '<tr style="border-bottom: 1px solid #e2e8f0;">' +
+                            '<td style="padding: 10px; border-right: 1px solid #e2e8f0; vertical-align: top; background-color: #fafafa;">' +
+                                '<span style="color: #2563eb; font-weight: bold;">[OR 조건]</span> 아래 위험 요인 중 <span style="font-weight: 600; color: #0f172a;">단 하나라도 해당하면</span> 즉시 초고위험군 판정 (골형성 촉진제 1차 권고)' +
+                            '</td>' +
+                            '<td style="padding: 10px; vertical-align: top; background-color: #fff5f5;">' +
+                                '<span style="color: #dc2626; font-weight: bold;">[AND 조건]</span> 아래의 4가지 복잡한 행정 조건을 <span style="font-weight: 600; color: #b91c1c;">동시에 전부 만족해야만</span> 겨우 급여 승인' +
+                            '</td>' +
+                        '</tr>' +
+                        '<tr style="border-bottom: 1px solid #e2e8f0;">' +
+                            '<td style="padding: 10px; border-right: 1px solid #e2e8f0; vertical-align: top;">' +
+                                '• <strong>취약성 골절:</strong> 최근 1~2년 이내 발생한 골절은 <span style="color: #0f172a; font-weight: 600;">T-score 수치와 무관하게</span> 즉시 대상 탑승.<br>' +
+                                '• <strong>다발성 골절:</strong> 과거력 포함 2회 이상 발생 시 즉시 초고위험군 분류.' +
+                            '</td>' +
+                            '<td style="padding: 10px; vertical-align: top;">' +
+                                '① <strong>연령 제한:</strong> 만 65세 이상 (로모소주맙은 폐경 후 여성 한정)<br>' +
+                                '② <strong>골밀도 수치:</strong> 중심골(요추/대퇴골) <strong>T-score -2.5 이하</strong> 필수<br>' +
+                                '③ <strong>골절 개수:</strong> 골다공증성 골절 사건이 <strong>최소 2번 이상</strong> 발생한 상태' +
+                            '</td>' +
+                        '</tr>' +
+                        '<tr style="border-bottom: 1px solid #e2e8f0;">' +
+                            '<td style="padding: 10px; border-right: 1px solid #e2e8f0; vertical-align: top;">' +
+                                '• <strong>기존 약물 치료 중 신규 골절:</strong> 이는 단순 사고가 아닌 <span style="color: #d97706; font-weight: 600;">\'치료 실패(Treatment Failure)\'</span>의 강력한 사인이므로 즉시 약제 스위칭 강조.' +
+                            '</td>' +
+                            '<td style="padding: 10px; vertical-align: top;">' +
+                                '④ <strong>치료 실패 증빙:</strong> 기존 골흡수억제제를 <strong>1년 이상 투여했으나 효과가 없거나</strong> 부작용으로 투여 불가능함이 의학적으로 차트에 증명되어야 함.' +
+                            '</td>' +
+                        '</tr>' +
+                        '<tr>' +
+                            '<td style="padding: 10px; border-right: 1px solid #e2e8f0; vertical-align: top;">' +
+                                '• <strong>FRAX 점수 기준:</strong> 10년 내 주요 골절 확률 &gt;30% 또는 대퇴골 골절 &gt;4.5% 시 진단 가능.<br>' +
+                                '• <strong>낙상 고위험군:</strong> 보행장애, 과거 낙상력 동반자 선제적 포함.' +
+                            '</td>' +
+                            '<td style="padding: 10px; vertical-align: top; background-color: #fdf2f2;">' +
+                                '💡 <strong>임상 매뉴얼 업데이트 (완충구간):</strong><br>' +
+                                '치료 후 T-score가 <span style="color: #059669; font-weight: 600;">-2.5 초과 ~ -2.0 이하</span>로 개선되더라도 프롤리아/BP 연계 급여는 최대 2년 연장 인정. (단, -2.0을 초과해 극적으로 좋아진 환자는 급여 탈락하므로 비급여 유지가 필수)' +
+                            '</td>' +
+                        '</tr>' +
+                    '</tbody>' +
+                '</table>' +
+            '</div>' +
+        '</details>' +
+    '</div>' +
+    // --- [새로 추가되는 골절 초고위험군 진단기준 및 급여 비교 풀다운] 끝 ---
+
+    // 기존 1121번째 줄 버튼 코드로 매끄럽게 연결
+    '<button type="button" onclick="toggleAnabolicGuide(event)" style="width: 100%; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 4px; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; margin-bottom: 4px;">' +
+        '<span>💡 [임상 가이드] 이베니티 · 테리파라타이드 비급여 및 금기 기준 상시 보기</span>' +
+        '<span id="guideArrow" style="transition: transform 0.2s; color: #64748b;">▼</span>' +
+    '</button>' +
+    
+    // (이하 기존 1125번째 줄 'anabolicGuideContent' 코드 생략, 그대로 유지하시면 됩니다)
+
         '<button type="button" onclick="toggleAnabolicGuide(event)" style="width: 100%; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 12px; text-align: left; color: #334155; font-weight: bold; font-size: 0.85rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; outline: none; border-style: solid;">' +
             '<span>💡 [임상 가이드] 이베니티 · 테리파라타이드 비급여 및 금기 기준 상시 보기</span>' +
             '<span id="guideArrow" style="transition: transform 0.2s; color: #64748b;">▼</span>' +
