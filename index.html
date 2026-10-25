@@ -301,6 +301,38 @@
             margin: 0 !important;          /* ◀ 혹시 모를 위아래 여백 제거 */
             padding: 0 !important;
         }
+        /* -------------------------------------------------------------
+           오직 골다공증 처방 시뮬레이터 '건강보험 기준 표'에만 적용되는 스타일
+           (다른 테이블이나 계산기 영역에는 전혀 영향을 주지 않습니다)
+           ------------------------------------------------------------- */
+        
+        /* 1. 표 내부의 기본 글씨 크기와 줄간격 키우기 */
+        .insurance-table.optimized-table {
+            font-size: 15px !important;
+            line-height: 1.6 !important;
+        }
+        
+        /* 2. 검사 항목 제목(🦴, 🧬 등) 글씨 키우기 */
+        .insurance-table.optimized-table strong {
+            font-size: 16px !important;
+            color: #2d3748 !important;
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+        
+        /* 3. 일반 설명 문구 글씨 키우기 */
+        .insurance-table.optimized-table p {
+            font-size: 14px !important;
+            color: #4a5568 !important;
+        }
+        
+        /* 4. 문제가 되었던 칼슘, 인 검사 하단의 작은 팁 글씨 크기 정상화 */
+        .insurance-table.optimized-table td p[style*="font-size"] {
+            font-size: 14px !important;
+            line-height: 1.6 !important;
+            color: #4a5568 !important;
+        }
+
     </style>
 </head>
 <body>
@@ -315,7 +347,7 @@
                             <span class="summary-icon">▼</span>
                         </summary>
                         <div class="details-content">
-                            <table class="insurance-table">
+                            <table class="insurance-table optimized-table">
                                 <tr>
                                     <td>
                                         <strong>🦴 골밀도 검사 (DXA)</strong>
