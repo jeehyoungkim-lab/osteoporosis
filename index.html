@@ -1230,7 +1230,60 @@ function calculate() {
         '</details>' +
     '</div>' +
     // --- [새로 추가되는 골절 초고위험군 진단기준 및 급여 비교 풀다운] 끝 ---
-
+// --- [새로 추가되는 골절 초고위험군 진단기준 및 급여 비교 풀다운] 시작 ---
+    '<div style="margin-bottom: 8px; border: 1px solid #e2e8f0; border-radius: 6px; background-color: #ffffff; overflow: hidden; font-family: inherit; text-align: left;">' +
+        '<details class="group" style="cursor: pointer;">' +
+            '<summary style="display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background-color: #f8fafc; list-style: none;">' +
+                '<div style="display: flex; align-items: center; gap: 6px; font-size: 0.88rem; font-weight: 600; color: #1e293b;">' +
+                    '<span style="font-size: 1rem;">🔍</span> [글로벌 가이드라인 vs 심평원] 골절의 범위와 기준 비교' +
+                '</div>' +
+               // 기존의 <svg> ... </svg>를 삭제하고 아래 코드로 대체하세요.
+                '<span id="guideArrow1" style="transition: transform 0.2s; color: #64748b; font-size: 0.85rem;">▼</span>' +
+            '</summary>' +
+            '<div style="padding: 12px; background-color: #ffffff; border-top: 1px solid #e2e8f0;">' +
+                '<table style="width: 100%; border-collapse: collapse; font-size: 0.83rem; line-height: 1.5; color: #334155; text-align: left;">' +
+                    '<thead>' +
+                        '<tr style="background-color: #f1f5f9; border-bottom: 2px solid #cbd5e1;">' +
+                            '<th style="padding: 8px 10px; font-weight: 600; color: #0f172a; width: 50%; border-right: 1px solid #e2e8f0;">🌐 의학 가이드라인 (골절 범위)</th>' +
+                            '<th style="padding: 8px 10px; font-weight: 600; color: #b91c1c; width: 50%;">🇰🇷 국내 심평원 급여 기준 </th>' +
+                        '</tr>' +
+                    '</thead>' +
+                    '<tbody>' +
+                       
+                        '<tr style="border-bottom: 1px solid #e2e8f0;">' +
+                            '<td style="padding: 10px; border-right: 1px solid #e2e8f0; vertical-align: top;">' +
+                                '• <strong>골절 인정 부위:</strong> 임상적 취약성 골절 전체 인정(척추, 고관절, 손목, 상완골, 골반골, 대퇴골, 천골, 발목 등) 나이가 들어 가벼운 충격에 뼈가 부러졌다면, 부러진 위치가 어디든 상관없이(손·발가락, 안면골 제외)  취약성 골절 전체 의미</span> <br>' +
+                                '• <strong>골절 인정 부위 :</strong> 국가 고시 지정 7대 부위만 제한적 인정(척추, 대퇴골, 요골, 상완골, 골반골, 천골, 발목)<br>' +
+                            '</td>' +
+                            '<td style="padding: 10px; vertical-align: top;">' +
+                                '② <strong>골절 진단 방법:</strong> 엑스레이(X-ray)는 물론, 미세 골절이나 골절 시기 확인을 위한 CT, MRI, 뼈 스캔(Bone Scan) 소견 모두 인정<br>' +
+                                '③ <strong>골절 진단 방법:</strong> 원칙적으로 방사선 촬영(X-ray) 상 명백하게 확인되는 대형 골절 중심 인정 (애매한 미세/진구성 골절은 심사 조정 가능성 높음)' +
+                            '</td>' +
+                        '</tr>' +
+                        '<tr style="border-bottom: 1px solid #e2e8f0;">' +
+                            '<td style="padding: 10px; border-right: 1px solid #e2e8f0; vertical-align: top;">' +
+                                '• <strong>기존 약물 치료 중 신규 골절:</strong> 이는 단순 사고가 아닌 <span style="color: #d97706; font-weight: 600;">\'치료 실패(Treatment Failure)\'</span>의 강력한 사인이므로 즉시 약제 스위칭 강조.' +
+                            '</td>' +
+                            '<td style="padding: 10px; vertical-align: top;">' +
+                                '④ <strong>치료 실패 증빙:</strong> 기존 골흡수억제제를 <strong>1년 이상 투여했으나 효과가 없거나</strong> 부작용으로 투여 불가능함이 의학적으로 차트에 증명되어야 함.' +
+                            '</td>' +
+                        '</tr>' +
+                        '<tr>' +
+                            '<td style="padding: 10px; border-right: 1px solid #e2e8f0; vertical-align: top;">' +
+                                '• <strong>FRAX 점수 기준:</strong> 10년 내 주요 골절 확률 &gt;30% 또는 대퇴골 골절 &gt;4.5% 시 진단 가능.<br>' +
+                                '• <strong>낙상 고위험군:</strong> 보행장애, 과거 낙상력 동반자 선제적 포함.' +
+                            '</td>' +
+                            '<td style="padding: 10px; vertical-align: top; background-color: #fdf2f2;">' +
+                                '💡 <strong>임상 매뉴얼 업데이트 (완충구간):</strong><br>' +
+                                '치료 후 T-score가 <span style="color: #059669; font-weight: 600;">-2.5 ~ -2.0 </span>로 개선되더라도 프롤리아/BP 연계 급여는 최대 2년 연장 인정. (단, -2.0을 초과해 극적으로 좋아진 환자는 급여 탈락하므로 비급여 유지가 필수)' +
+                            '</td>' +
+                        '</tr>' +
+                    '</tbody>' +
+                '</table>' +
+            '</div>' +
+        '</details>' +
+    '</div>' +
+    // --- [새로 추가되는 골절 초고위험군 진단기준 및 급여 비교 풀다운] 끝 ---
     // (이하 기존 1125번째 줄 'anabolicGuideContent' 코드 생략, 그대로 유지하시면 됩니다)
 
         '<button type="button" onclick="toggleAnabolicGuide(event)" style="width: 100%; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 12px; text-align: left; color: #334155; font-weight: bold; font-size: 0.85rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; outline: none; border-style: solid;">' +
