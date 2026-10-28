@@ -754,7 +754,7 @@ function runCalciumCalculatorOnly() {
         } else if (phosphorus > 4.5) {
             p_addon_html += `<span style="color: #b45309; font-weight: 700;">⚠️ 주의 (인 정체 상태):</span> [Ca × P] 곱은 안전 수위이나 인(P) 수치가 단독 상승해 있습니다. 향후 혈액 검사에서 iPTH가 높게 나오더라도 칼슘 부족이 아닌 신기능 저하로 인한 인 축적(이차성 부갑상선 기능 항진증)일 가능성이 크므로 <b>활성 비타민 D 증량에 신중</b>해야 하며, 식이 조절 및 신장내과 협진을 고려하십시오.`;
         } else {
-            p_addon_html += `<span style="color: #15803d; font-weight: 700;">✅ 안전 (iPTH 판정 단계):</span> [Ca × P] 수치가 안전 영역에 있습니다. 동시 검사한 <b>iPTH 수치</b>를 확인하여 처방을 조절하십시오.<br>` +
+            p_addon_html += `<span style="color: #15803d; font-weight: 700;">✅ 안전 (iPTH 판정 단계):</span> [Ca × P] 55를 이하로 안전 영역에 있습니다. 동시 검사한 <b>iPTH 수치</b>를 확인하여 처방을 조절하십시오.<br>` +
                             `• <b>iPTH 단독 상승 시:</b> 실제 체내 칼슘 섭취량 부족 신호 ➔ 칼슘 및 비타민 D 신중히 증량 고려<br>` +
                             `• <b>iPTH 정상~하한 유지 시:</b> 현재 처방 중인 절반 용량의 칼슘으로도 넉넉하고 안전한 상태입니다.`;
         }
