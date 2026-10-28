@@ -420,24 +420,25 @@
       <span style="color: #64748b; font-size: 0.8rem; font-weight: normal;">* 저알부민혈증 고령 환자 가성 저칼슘혈증 배제용</span>
     </div>
 
-    <div class="calculator-box" style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
-        <label>총 칼슘(Total Ca): 
+    <!-- flex 레이아웃이 악세서리까지 일렬로 예쁘게 정렬하도록 고정 -->
+    <div class="calculator-box" style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; width: 100%;">
+        <label style="margin: 0;">총 칼슘(Total Ca): 
             <input type="number" id="calcTotalCa" class="calc-input" step="0.1" value="7.6" style="width: 70px;"> mg/dL
         </label>
-        <label>알부민(Albumin): 
+        <label style="margin: 0;">알부민(Albumin): 
             <input type="number" id="calcAlbumin" class="calc-input" step="0.1" value="2.7" style="width: 70px;"> g/dL
         </label>
         
-        <!-- 변경: onclick 함수명을 통합형 계산 함수로 변경 -->
-        <button type="button" class="calc-btn" onclick="calculateCalciumAndPhosphorus()" style="background-color: #0ea5e9; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+        <!-- 버튼의 스타일을 flex-grow나 고정형태로 잡아 밀림 현상 방지 -->
+        <button type="button" class="calc-btn" onclick="runCalciumCalculatorOnly()" style="background-color: #0ea5e9; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; display: inline-block;">
             보정 칼슘 계산하기 (계산 결과는 아래에 수동으로 선택해 주세요) : 보정칼슘 = 칼슘 + 0.8 *(4.0 - 알부민) 
         </button>
 
-        <!-- ➕ 추가: 파란색 버튼 우측에 추가되는 독립형 인(P) 입력 액세서리 영역 -->
-        <div style="display: inline-flex; align-items: center; background: #f8fafc; border: 1px dashed #cbd5e1; padding: 4px 8px; border-radius: 4px; gap: 6px; margin-left: 2px;">
+        <!-- ➕ 파란색 버튼 우측에 결합하는 독립형 인(P) 입력 액세서리 (id: calcPhosphorus) -->
+        <div style="display: inline-flex; align-items: center; background: #f8fafc; border: 1px dashed #cbd5e1; padding: 4px 8px; border-radius: 4px; gap: 6px;">
             <label for="calcPhosphorus" style="font-size: 0.85rem; color: #64748b; font-weight: 600; margin: 0;">+ 인(P) 연동:</label>
             <input type="number" id="calcPhosphorus" placeholder="선택" step="0.1" style="width: 55px; padding: 2px 4px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.85rem; text-align: center;">
-            <span style="font-size: 0.85rem; color: #64748b;">mg/dL</span>
+            <span style="font-size: 0.85rem; color: #64748b; margin: 0;">mg/dL</span>
         </div>
     </div>
 
