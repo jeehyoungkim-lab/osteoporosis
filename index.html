@@ -412,7 +412,7 @@
         </div>
     </div>
 
-    <!-- 🧪 보정 칼슘(Payne 공식) 자동 계산기 위젯 -->
+<!-- 🧪 보정 칼슘(Payne 공식) 자동 계산기 위젯 -->
 <div class="card" style="margin-bottom: 15px; padding: 15px;">
 
     <div style="font-weight: 700; margin-bottom: 10px; color: #475569; font-size: 0.95rem; display: flex; justify-content: space-between; align-items: center; width: 100%;">
@@ -428,9 +428,17 @@
             <input type="number" id="calcAlbumin" class="calc-input" step="0.1" value="2.7" style="width: 70px;"> g/dL
         </label>
         
-        <button type="button" class="calc-btn" onclick="runCalciumCalculatorOnly()" style="background-color: #0ea5e9; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+        <!-- 변경: onclick 함수명을 통합형 계산 함수로 변경 -->
+        <button type="button" class="calc-btn" onclick="calculateCalciumAndPhosphorus()" style="background-color: #0ea5e9; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold;">
             보정 칼슘 계산하기 (계산 결과는 아래에 수동으로 선택해 주세요) : 보정칼슘 = 칼슘 + 0.8 *(4.0 - 알부민) 
         </button>
+
+        <!-- ➕ 추가: 파란색 버튼 우측에 추가되는 독립형 인(P) 입력 액세서리 영역 -->
+        <div style="display: inline-flex; align-items: center; background: #f8fafc; border: 1px dashed #cbd5e1; padding: 4px 8px; border-radius: 4px; gap: 6px; margin-left: 2px;">
+            <label for="calcPhosphorus" style="font-size: 0.85rem; color: #64748b; font-weight: 600; margin: 0;">+ 인(P) 연동:</label>
+            <input type="number" id="calcPhosphorus" placeholder="선택" step="0.1" style="width: 55px; padding: 2px 4px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.85rem; text-align: center;">
+            <span style="font-size: 0.85rem; color: #64748b;">mg/dL</span>
+        </div>
     </div>
 
     <!-- 📊 계산 결과 및 정형외과 진료 팁 출력 영역 -->
@@ -445,6 +453,7 @@
         </div>
     </div>
 </div>
+
 
 
     <!-- 1단계 필터 카드 -->
@@ -639,11 +648,12 @@ function runGfrCalculatorOnly() {
     document.getElementById('calcGfrResult').innerHTML = `➡️ 계산 결과 GFR: <span style="color:var(--warning); font-size:1.15rem;">${gfr}</span> mL/min/1.73㎡`;
 }
 
-// 🧪 보정 칼슘(Payne 공식) 계산용 함수
+// 🧪 보정 칼슘(Payne 공식) 계산용 함수 (인(P) 연동 확장판)
 function runCalciumCalculatorOnly() {
     // 1. HTML 입력 필드 및 결과 출력 레이어 요소 가져오기
     const totalCaInput = document.getElementById('calcTotalCa');
     const albuminInput = document.getElementById('calcAlbumin');
+    const phosphorusInput = document.getElementById('calcPhosphorus'); // ➕ 추가: 인(P) 입력 필드 가져오기
     
     const resultBox = document.getElementById('calcCaResultBox');
     const resultVal = document.getElementById('calcCaResultVal');
@@ -676,27 +686,21 @@ function runCalciumCalculatorOnly() {
     resultVal.innerHTML = `${correctedCa} mg/dL <span style="font-size: 0.85rem; color: #64748b; font-weight: normal; margin-left: 5px;">(정상 범위: 8.5 ~ 10.5)</span>`;
     resultBox.style.display = "block";
     
-    // 5. 보정 칼슘 수치에 따른 정형외과 진료 액션 플랜 분기
-       if (albumin <= 2.5) { 
-        // 경고 스타일 지정 (주황색 또는 붉은색 계열 배지)
+    // 5. 보정 칼슘 수치에 따른 정형외과 진료 액션 플랜 분기 (기존 로직 100% 유지)
+    if (albumin <= 2.5) { 
         statusBadge.style.backgroundColor = "#fffaf0";
         statusBadge.style.color = "#dd6b20";
         statusBadge.innerText = "위험 (중증 저알부민혈증)";
         
-        // 임상 팁에 즉시 내과 전원(Refer) 문구 출력
         clinicalTip.innerHTML = "⚠️ <b>임상 Tip:</b> 혈청 알부민이 <b>2.5 g/dL 이하</b>인 중증 상태입니다. " +
                                 "골다공증 약제 부작용 위험이 급증할 뿐만 아니라 신증후군, 간경변, 악성 종양 등 " +
                                 "심각한 기저 질환 가능성이 높으므로 <b>골다공증 주사 투여를 보류하고 즉시 내과(신장/소화기내과 등)로 의뢰</b>하십시오. " +
                                 "또한 과다 보정 오차가 있을 수 있으므로 정확한 판정 필요 시 <b>이온화 칼슘(Ionized Ca) 검사</b>를 직접 시행하십시오.";
-
-        } 
-        // 💡 기존의 보정 칼슘 분기들을 else if 로 묶어 최우선 분기가 아닐 때만 작동하도록 격리
-        else  if (correctedCa >= 8.5 && correctedCa <= 10.5) {
-        // 🟢 보정 후 정상 범위
+    } 
+    else if (correctedCa >= 8.5 && correctedCa <= 10.5) {
         statusBadge.style.backgroundColor = "#dcfce7";
         statusBadge.style.color = "#15803d";
         
-        // 알부민 수치에 따른 메시지 분기 처리 (선생님 수정본 반영)
         if (isAlbuminLow) {
             statusBadge.innerText = "정상";
             clinicalTip.innerHTML = "💡 <b>임상 Tip:</b> 노인에 더 흔한 저알부민에 의한 효과를 교정한 칼슘은 정상입니다. 골다공증 주사(데노수맙/BP)를 무리 없이 진행할 수 있습니다. 고령 및 영양 불량 환자는 저알부민혈증으로 인한 가성 저칼슘혈증의 빈도가 높으므로 반드시 보정 칼슘 수치를 확인하십시오.  " +
@@ -705,9 +709,7 @@ function runCalciumCalculatorOnly() {
             statusBadge.innerText = "정상 (보정 없음)";
             clinicalTip.innerHTML = "💡 <b>임상 Tip:</b> 알부민이 정상 이상이므로 보정 없이 총 칼슘 수치를 그대로 반영합니다. 활성 칼슘이 정상 범위 내에 있으므로 골다공증 주사(데노수맙/BP)를 무리 없이 <b>진행할 수 있습니다.</b>";
         }
-        
     } else if (correctedCa < 8.5 && correctedCa >= 7.5) {
-        // 🟡 경증 저칼슘혈증
         statusBadge.style.backgroundColor = "#fef9c3";
         statusBadge.style.color = "#a16207";
         
@@ -717,9 +719,7 @@ function runCalciumCalculatorOnly() {
             statusBadge.innerText = "주의 (경증 저칼슘혈증 / 보정 없음)";
         }
         clinicalTip.innerHTML = "⚠️ <b>임상 Tip:</b> 실제 칼슘이 부족한 상태입니다. 주사 투여 전 <b>최소 2주간 경구 칼슘·비타민 D 선제 충전</b>을 권장합니다.";
-        
     } else if (correctedCa < 7.5) {
-        // 🔴 중증 저칼슘혈증
         statusBadge.style.backgroundColor = "#fee2e2";
         statusBadge.style.color = "#b91c1c";
         
@@ -729,13 +729,35 @@ function runCalciumCalculatorOnly() {
             statusBadge.innerText = "위험 (중증 저칼슘혈증 / 보정 없음)";
         }
         clinicalTip.innerHTML = "🚨 <b>임상 Tip:</b> Tetany 및 부정맥 위험이 있는 중증 상태입니다. 골다공증 <b>주사를 즉시 보류</b>하고 내과 협진 및 적극적인 칼슘 교정이 필요합니다.";
-        
     } else {
-        // 🔵 고칼슘혈증
         statusBadge.innerText = "고칼슘혈증 위험";
         statusBadge.style.backgroundColor = "#e0f2fe";
         statusBadge.style.color = "#0369a1";
         clinicalTip.innerHTML = "🔎 <b>임상 Tip:</b> 고칼슘혈증 상태입니다. 다른 골대사 질환이나 악성 종양 가능성 검토가 필요합니다.";
+    }
+
+    // 6. ➕ [인(P) 수치 입력 시 작동하는 동적 연동 가이드 모듈]
+    // 인(P) 입력 필드가 존재하고 값이 비어있지 않을 때만 기존 팁 하단에 추가 렌더링합니다.
+    if (phosphorusInput && phosphorusInput.value.trim() !== "") {
+        const phosphorus = parseFloat(phosphorusInput.value);
+        const caXP = (correctedCa * phosphorus).toFixed(1); // Ca x P 곱 계산
+
+        let p_addon_html = `<div style="margin-top: 10px; padding: 10px; border-radius: 4px; border-left: 4px solid #94a3b8; background-color: #f1f5f9; font-size: 0.85rem; line-height: 1.5;">`;
+        p_addon_html += `<span style="font-weight: 700; color: #475569; display: block; margin-bottom: 4px;">📈 신기능 연동 [Ca × P] 분석 결과: ${caXP}</span>`;
+
+        if (caXP > 55) {
+            p_addon_html += `<span style="color: #b91c1c; font-weight: 700;">🛑 위험 (위험수위 도달):</span> [Ca × P] 곱이 55를 초과하여 이소성 석회화(혈관/장기 석회화) 위험이 매우 높습니다. <b>즉시 칼슘 공급을 줄이거나 중단</b>하십시오. 이 단계에서는 iPTH 수치와 무관하게 브레이크를 잡아야 합니다.`;
+        } else if (phosphorus > 4.5) {
+            p_addon_html += `<span style="color: #b45309; font-weight: 700;">⚠️ 주의 (인 정체 상태):</span> [Ca × P] 곱은 안전 수위이나 인(P) 수치가 단독 상승해 있습니다. 향후 혈액 검사에서 iPTH가 높게 나오더라도 칼슘 부족이 아닌 신기능 저하로 인한 인 축적(이차성 부갑상선 기능 항진증)일 가능성이 크므로 <b>활성 비타민 D 증량에 신중</b>해야 하며, 식이 조절 및 신장내과 협진을 고려하십시오.`;
+        } else {
+            p_addon_html += `<span style="color: #15803d; font-weight: 700;">✅ 안전 (iPTH 판정 단계):</span> [Ca × P] 수치가 안전 영역에 있습니다. 동시 검사한 <b>iPTH 수치</b>를 확인하여 처방을 조절하십시오.<br>` +
+                            `• <b>iPTH 단독 상승 시:</b> 실제 체내 칼슘 섭취량 부족 신호 ➔ 칼슘 및 비타민 D 신중히 증량 고려<br>` +
+                            `• <b>iPTH 정상~하한 유지 시:</b> 현재 처방 중인 절반 용량의 칼슘으로도 넉넉하고 안전한 상태입니다.`;
+        }
+        p_addon_html += `</div>`;
+
+        // 기존 clinicalTip 내용 뒤에 연동 가이드 레이어를 자연스럽게 이어 붙임
+        clinicalTip.innerHTML += p_addon_html;
     }
 }
 
