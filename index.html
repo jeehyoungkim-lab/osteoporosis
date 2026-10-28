@@ -435,11 +435,14 @@
         </button>
 
         <!-- ➕ 파란색 버튼 우측에 결합하는 독립형 인(P) 입력 액세서리 (id: calcPhosphorus) -->
+        <!-- ➕ 파란색 버튼 우측에 결합하는 독립형 인(P) 입력 액세서리 (기본값 3.5 세팅) -->
         <div style="display: inline-flex; align-items: center; background: #f8fafc; border: 1px dashed #cbd5e1; padding: 4px 8px; border-radius: 4px; gap: 6px;">
             <label for="calcPhosphorus" style="font-size: 0.85rem; color: #64748b; font-weight: 600; margin: 0;">+ 인(P) 연동:</label>
-            <input type="number" id="calcPhosphorus" placeholder="선택" step="0.1" style="width: 55px; padding: 2px 4px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.85rem; text-align: center;">
+            <!-- 💡 value="3.5" 를 추가하여 대표적인 정상 임상 수치를 기본 탑재했습니다. -->
+            <input type="number" id="calcPhosphorus" class="calc-input" step="0.1" value="3.5" placeholder="선택" style="width: 55px; padding: 2px 4px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.85rem; text-align: center;">
             <span style="font-size: 0.85rem; color: #64748b; margin: 0;">mg/dL</span>
         </div>
+
     </div>
 
     <!-- 📊 계산 결과 및 정형외과 진료 팁 출력 영역 -->
