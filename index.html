@@ -750,11 +750,11 @@ function runCalciumCalculatorOnly() {
         p_addon_html += `<span style="font-weight: 700; color: #475569; display: block; margin-bottom: 4px;">📈 신기능 연동 [보정 Ca × P] 분석 결과: ${caXP}</span>`;
 
         if (caXP > 55) {
-            p_addon_html += `<span style="color: #b91c1c; font-weight: 700;">🛑 위험 (위험수위 도달):</span> [Ca × P] 곱이 55를 초과하여 이소성 석회화(혈관/장기 석회화) 위험이 매우 높습니다. <b>즉시 칼슘 공급을 줄이거나 중단</b>하십시오. 이 단계에서는 iPTH 수치와 무관하게 브레이크를 잡아야 합니다.`;
+            p_addon_html += `<span style="color: #b91c1c; font-weight: 700;">🛑 위험 (위험수위 도달):</span> [보정 Ca × P] 곱이 55를 초과하여 이소성 석회화(혈관/장기 석회화) 위험이 매우 높습니다. <b>즉시 칼슘 공급을 줄이거나 중단</b>하십시오. 이 단계에서는 iPTH 수치와 무관하게 브레이크를 잡아야 합니다.`;
         } else if (phosphorus > 4.5) {
-            p_addon_html += `<span style="color: #b45309; font-weight: 700;">⚠️ 주의 (인 정체 상태):</span> [Ca × P] 곱은 안전 수위이나 인(P) 수치가 단독 상승해 있습니다. 향후 혈액 검사에서 iPTH가 높게 나오더라도 칼슘 부족이 아닌 신기능 저하로 인한 인 축적(이차성 부갑상선 기능 항진증)일 가능성이 크므로 <b>활성 비타민 D 증량에 신중</b>해야 하며, 식이 조절 및 신장내과 협진을 고려하십시오.`;
+            p_addon_html += `<span style="color: #b45309; font-weight: 700;">⚠️ 주의 (인 정체 상태):</span> [보정 Ca × P] 곱은 안전 수위이나 인(P) 수치가 단독 상승해 있습니다. 향후 혈액 검사에서 iPTH가 높게 나오더라도 칼슘 부족이 아닌 신기능 저하로 인한 인 축적(이차성 부갑상선 기능 항진증)일 가능성이 크므로 <b>활성 비타민 D 증량에 신중</b>해야 하며, 식이 조절 및 신장내과 협진을 고려하십시오.`;
         } else {
-            p_addon_html += `<span style="color: #15803d; font-weight: 700;">✅ 안전 (iPTH 판정 단계):</span> [Ca × P] 55를 이하로 안전 영역에 있습니다. 동시 검사한 <b>iPTH 수치</b>를 확인하여 처방을 조절하십시오.<br>` +
+            p_addon_html += `<span style="color: #15803d; font-weight: 700;">✅ 안전 (iPTH 판정 단계):</span> [보정 Ca × P] 55를 이하로 안전 영역에 있습니다. 동시 검사한 <b>iPTH 수치</b>를 확인하여 처방을 조절하십시오.<br>` +
                             `• <b>iPTH 단독 상승 시:</b> 실제 체내 칼슘 섭취량 부족 신호 ➔ 칼슘 및 비타민 D 신중히 증량 고려<br>` +
                             `• <b>iPTH 정상~하한 유지 시:</b> 현재 처방 중인 용량의 칼슘으로도 넉넉한 상태입니다.`;
         }
@@ -891,8 +891,8 @@ const prescriptionMatrix = [
                 <li style="margin-bottom:8px;"><strong>결과 해석 및 용량 조절 프로토콜:</strong>
                     <ul style="margin:4px 0; padding-left:20px; list-style-type:square;">
                         <li>※ 노인 환자가 많으므로 칼슘은 반드시 알부민을 반영한 <strong>교정 칼슘 수치(정상: 8.5~10.5 mg/dL)</strong>를 기준으로 합니다.</li>
-                        <li><strong>[1단계: 안전 수위 확인]:</strong> 혈중 교정 칼슘(Ca)과 인(P)을 곱한 값<strong>[Ca × P]이 55를 초과하면 이소성 석회화(혈관 석회화 등) 위험</strong>이 급격히 높아지므로 즉시 칼슘 공급을 줄여야 합니다.</li>
-                        <li><strong>[2단계: 칼슘 부족 시]:</strong> [Ca × P]가 55 이하이면서, 교정 Ca이 낮거나 <strong>iPTH가 단독 상승</strong>해 있다면 칼슘 부족 신호 ➔ 칼슘 및 비타민 D 증량</li>
+                        <li><strong>[1단계: 안전 수위 확인]:</strong> 혈중 교정 칼슘(Ca)과 인(P)을 곱한 값<strong>[보정 Ca × P]이 55를 초과하면 이소성 석회화(혈관 석회화 등) 위험</strong>이 급격히 높아지므로 즉시 칼슘 공급을 줄여야 합니다.</li>
+                        <li><strong>[2단계: 칼슘 부족 시]:</strong> [보정 Ca × P]가 55 이하이면서, 보정 Ca이 낮거나 <strong>iPTH가 단독 상승</strong>해 있다면 칼슘 부족 신호 ➔ 칼슘 및 비타민 D 증량</li>
                         <li><strong>⚠️ 주의 (P 동반 상승 시):</strong> iPTH가 높더라도 <strong>인(P) 수치가 정상 상한치(4.5 mg/dL)를 넘어 동반 상승</strong>해 있다면, 이는 칼슘 부족이 아닌 신기능 저하로 인한 인 정체(이차성 부갑상선 기능 항진증)이므로 <strong>활성 비타민 D 증량에 신중</strong>해야 하며, 식이 조절 및 신장내과 협진을 고려합니다.</li>
                     </ul>
                 </li>
