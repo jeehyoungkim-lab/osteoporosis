@@ -747,7 +747,7 @@ function runCalciumCalculatorOnly() {
         const caXP = (correctedCa * phosphorus).toFixed(1); // Ca x P 곱 계산
 
         let p_addon_html = `<div style="margin-top: 10px; padding: 10px; border-radius: 4px; border-left: 4px solid #94a3b8; background-color: #f1f5f9; font-size: 0.85rem; line-height: 1.5;">`;
-        p_addon_html += `<span style="font-weight: 700; color: #475569; display: block; margin-bottom: 4px;">📈 신기능 연동 [Ca × P] 분석 결과: ${caXP}</span>`;
+        p_addon_html += `<span style="font-weight: 700; color: #475569; display: block; margin-bottom: 4px;">📈 신기능 연동 [보정 Ca × P] 분석 결과: ${caXP}</span>`;
 
         if (caXP > 55) {
             p_addon_html += `<span style="color: #b91c1c; font-weight: 700;">🛑 위험 (위험수위 도달):</span> [Ca × P] 곱이 55를 초과하여 이소성 석회화(혈관/장기 석회화) 위험이 매우 높습니다. <b>즉시 칼슘 공급을 줄이거나 중단</b>하십시오. 이 단계에서는 iPTH 수치와 무관하게 브레이크를 잡아야 합니다.`;
